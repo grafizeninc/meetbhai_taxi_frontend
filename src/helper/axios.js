@@ -2,8 +2,8 @@ import axios from "axios";
 import auth from "../config/auth";
 
 // export const BaseURL = API.endpoint + "/";
-export const BaseURL = process.env.REACT_APP_LOCAL_API_URL;
-// export const BaseURL = "https://hotel-backend.manzzari.in";
+// export const BaseURL = process.env.REACT_APP_LOCAL_API_URL;
+export const BaseURL = "https://rotten-marjy-newtonian-9d481b7c.koyeb.app";
 // export const BaseURL = "https://manzzri-backend.vercel.app";
 
 const defaultHeaders = {
@@ -138,12 +138,13 @@ export const getHttpOptions = (options = defaultHeaders) => {
   };
   // "Origin, X-Requested-With, Content-Type, Accept"
   if (options.hasOwnProperty("isAuth") && options.isAuth) {
-    headers["Authorization"] = auth.getToken() ?? "";
+    const token = auth.getToken();
+    headers["Authorization"] = token ? `Bearer ${token}` : "";
   }
 
   if (options.hasOwnProperty("isJsonRequest") && options.isJsonRequest) {
-    // headers["Content-Type"] = "application/json";
-    headers["Content-Type"] = "multipart/form-data";
+    headers["Content-Type"] = "application/json";
+    // headers["Content-Type"] = "multipart/form-data";
 
   }
 

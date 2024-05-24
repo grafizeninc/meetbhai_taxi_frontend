@@ -1,13 +1,17 @@
 import {
-  RESET_GLOBAL_STATE,
-  ADD_LOGIN_ERROR,
+  IS_LOADING,
   ADD_LOGIN_LOADING,
+  ADD_LOGIN_ERROR,
   ADD_LOGIN_SUCCESS,
+  GET_PROFILE_USER,
   LOGOUT,
+  UPDATE_PROFILE_USER,
   SIGNUP_DATA,
-  GET_MY_PROFILE,
-  SEND_OTP_DATA,
   GET_ALL_USERS_DATA,
+  DELETE_PROFILE_USER,
+  GET_ALL_DEACTIVE_USERS_DATA,
+  RECOVER_PROFILE_USER,
+  RESET_GLOBAL_STATE,
 } from "../type";
 
 const initialState = {
@@ -16,9 +20,7 @@ const initialState = {
   addLoginError: null,
   isLoggedIn: false,
   signupUserData: [],
-  getMyProfile: null,
-  sendOtpData: undefined,
-  getAllUser: [],
+  getAllUsers: [],
 };
 
 const authReducer = (state = initialState, action) => {
@@ -38,26 +40,15 @@ const authReducer = (state = initialState, action) => {
         ...state,
         addLoginSuccess: action.payload,
       };
-    case GET_ALL_USERS_DATA:
-      return {
-        ...state,
-        getAllUser: action.payload,
-      };
-
-    case SEND_OTP_DATA:
-      return {
-        ...state,
-        sendOtpData: action.payload,
-      };
     case ADD_LOGIN_ERROR:
       return {
         ...state,
         addLoginError: action.payload,
       };
-    case GET_MY_PROFILE:
+    case GET_ALL_USERS_DATA:
       return {
         ...state,
-        getMyProfile: action.payload,
+        getAllUsers: action.payload,
       };
 
     case LOGOUT:
