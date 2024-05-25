@@ -1,14 +1,108 @@
-import { DatePicker } from '@nextui-org/react';
+import { Autocomplete, AutocompleteItem, DatePicker } from '@nextui-org/react';
 import React, { useState } from 'react';
 import BottomBar from '../components/menu/BottomBar';
 import { Link } from 'react-router-dom';
+import Slider from 'react-slick';
 
 export default function Home({ activeMainTab, setActiveMainTab, menuOverLap, setmenuOverLap }) {
     console.log("🚀 ~ Home ~ activeMainTab:", activeMainTab)
-    const [activeTab, setactiveTab] = useState("from-airport");
-    const [activeWhichLocationTab, setactiveWhichLocationTab] = useState("");
+    const [activeTab, setactiveTab] = useState("Airport");
+    const [activeWhichLocationTab, setactiveWhichLocationTab] = useState("from-airport");
+    const [searchBarActive, setSearchBarActive] = useState(false);
+    const [localSearchBarActive, setLocalSearchBarActive] = useState(false);
     const [addStop, setAddStop] = useState(false);
 
+
+    const carslider = ({
+        arrows: false,
+        infinite: true,
+        // autoplay: true,
+        slidesToShow: 1,
+        slidesToScroll: 1,
+        autoplaySpeed: 4000,
+        touchThreshold: 100,
+        responsive: [
+            {
+                breakpoint: 2000,
+                settings: {
+                    slidesToShow: 1,
+                    slidesToScroll: 1,
+                },
+            },
+            {
+                breakpoint: 1600,
+                settings: {
+                    slidesToShow: 1,
+                    slidesToScroll: 1,
+                },
+            },
+            {
+                breakpoint: 1400,
+                settings: {
+                    slidesToShow: 1,
+                    slidesToScroll: 1,
+                },
+            },
+            {
+                breakpoint: 1200,
+                settings: {
+                    slidesToShow: 1,
+                    slidesToScroll: 2,
+                },
+            },
+            {
+                breakpoint: 1024,
+                settings: {
+                    slidesToShow: 1,
+                    slidesToScroll: 3,
+                },
+            },
+            {
+                breakpoint: 600,
+                settings: {
+                    centerMode: false,
+                    slidesToShow: 1,
+                    slidesToScroll: 1,
+                },
+            },
+            {
+                breakpoint: 320,
+                settings: {
+                    centerMode: false,
+                    slidesToShow: 1,
+                    slidesToScroll: 1,
+                },
+            },
+        ]
+    });
+
+    const airportSelector = [
+        { label: "HSR - Rajkot Hirasar International Airport", value: "1", },
+        { label: "AMD - Sardar Vallabhbhai Patel International Airport", value: "2", },
+        { label: "STV - Surat International Airport", value: "3", },
+        { label: "BOM - Chhatrapati Shivaji International Airport", value: "4", },
+        { label: "MAA - Chennai International Airport", value: "5", },
+        { label: "PNQ - Pune International Airport", value: "6", },
+        { label: "BLR - Kempegowda International Airport Bengaluru", value: "7", },
+        { label: "IDR - Devi Ahilyabai Holkar Airport Indore", value: "8", },
+        { label: "DEL - Indira Gandhi International Airport", value: "9", },
+        { label: "DED - Jolly Grant Airport Dehradun", value: "10", },
+        { label: "UDR - Maharana Pratap Airport Udaipur", value: "11", },
+    ];
+    const citySelector = [
+        { label: "Rajkot - Greenland chowkdi", value: "1", },
+        { label: "Rajkot - Kalwad Rd. cosmoplex circle", value: "2", },
+        { label: "Chotila - Maa Chamunda Temple", value: "3", },
+        { label: "Morbi city", value: "4", },
+        { label: "Indira circle, University main Rd.", value: "5", },
+    ];
+    const packageSelector = [
+        { label: "02 Hours, 20 Kilometres", value: "1", },
+        { label: "04 Hours, 40 Kilometres", value: "2", },
+        { label: "08 Hours, 80 Kilometres", value: "3", },
+        { label: "12 Hours, 120 Kilometres", value: "4", },
+        { label: "16 Hours, 160 Kilometres", value: "5", },
+    ];
 
     const datalist = [
         { w: "w-[90px]", click: () => setmenuOverLap(true), redirection: "/", ico: "../../../public/IMG/sidebar/airport-black.png", icoActive: "../../../public/IMG/sidebar/airport-white.png", name: "Airport/Local" },
@@ -18,7 +112,7 @@ export default function Home({ activeMainTab, setActiveMainTab, menuOverLap, set
 
     return (
         <>
-            <div className={`w-100 py-3 px-4 pb-5 mx-auto  ${menuOverLap ? "min-h-[250px] max-h-[250px] " : "min-h-[150px] max-h-[150px]"} col bs-blue rounded-t-none rounded-b-3xl relative flex flex-col items-center justify-between shadow-md rounded-r- `}>
+            <div className={`w-100 py-3 px-4 pb-5 mx-auto  ${menuOverLap ? "min-h-fit max-h-fit h-fit" : " "} col bs-blue rounded-t-none rounded-b-3xl relative flex flex-col items-center justify-between shadow-md rounded-r- `}>
 
                 <div className="w-100 flex justify-between">
                     <div className="">
@@ -32,7 +126,7 @@ export default function Home({ activeMainTab, setActiveMainTab, menuOverLap, set
                         </div>
                     </div>
                 </div>
-                <div className={`h-fit w-[80%] flex justify-center gap-2 ${menuOverLap ? "" : "absolute top-100 start-50 translate-middle "}`}>
+                <div className={`${searchBarActive || localSearchBarActive ? "hidden" : ""}  h-fit w-[80%] flex justify-center gap-2 ${menuOverLap ? "" : "absolute top-100 start-50 translate-middle "}`}>
                     <div className="flex gap-5">
                         <div className="flex gap-3">
                             {datalist.map((item) => (
@@ -49,7 +143,7 @@ export default function Home({ activeMainTab, setActiveMainTab, menuOverLap, set
                     </div>
                 </div>
 
-                <div className={`h-fit w-[100%] flex justify-center absolute top-100 start-50 translate-middle`}>
+                <div className={`${searchBarActive || localSearchBarActive ? "hidden" : ""}  h-fit w-[100%] flex justify-center absolute top-100 start-50 translate-middle`}>
                     <div className="flex border-1 rounded-lg bs-white overflow-hidden">
                         <div onClick={() => setactiveTab("Airport")} className={` ${activeTab === "Airport" ? "bs-org tx-white slide-right font-bold" : "  bs-white tx-black font-semibold"}  flex items-center pointer px-4 py-2 rounded-md gap-2 `}>
                             <p className='text-[16px] font-Outfit'>Airport</p>
@@ -59,100 +153,277 @@ export default function Home({ activeMainTab, setActiveMainTab, menuOverLap, set
                         </div>
                     </div>
                 </div>
-            </div>
 
-
-            <div className="mt-[35px]">
-                <div className={`h-fit w-[100%] flex justify-center  `}>
-                    <div className="flex border-2 rounded-lg bs-blu overflow-hidden">
-                        <div onClick={() => activeWhichLocationTab("from-airport")} className={` ${activeTab === "from-airport" ? " bs-blue tx-white slide-left font-bold" : " bs-white tx-black font-semibold"}  flex items-center pointer px-3 py-1 rounded-md gap-2 `}>
-                            <p className='text-[14px] font-Outfit'>From Airport</p>
-                        </div>
-                        <div onClick={() => activeWhichLocationTab("to-airport")} className={` ${activeTab === "to-airport" ? "bs-blue tx-white slide-right font-bold" : "  bs-white tx-black font-semibold"}  flex items-center pointer px-3 py-1 rounded-md gap-2 `}>
-                            <p className='text-[14px] font-Outfit'>To Airport</p>
-                        </div>
+                <div className={`${searchBarActive ? "" : "hidden"} col w-100 mt-4 flex flex-col gap-5`}>
+                    <div className="col flex gap-2 border-2 border-org rounded-md bs-white relative">
+                        <Autocomplete
+                            label=""
+                            defaultItems={airportSelector}
+                            placeholder="From which Airport?"
+                            className="col w-100 !font-bold py-1 !text-[14px] autocompleate-custome"
+                        >
+                            {(animal) => <AutocompleteItem key={animal.value}>{animal.label}</AutocompleteItem>}
+                        </Autocomplete>
+                    </div>
+                    <div className="col flex gap-2 border-2 border-org rounded-md bs-white relative">
+                        <Autocomplete
+                            label=""
+                            defaultItems={citySelector}
+                            placeholder="Select your Destination"
+                            className="col w-100 !font-bold py-1 !text-[14px] autocompleate-custome"
+                        >
+                            {(animal) => <AutocompleteItem key={animal.value}>{animal.label}</AutocompleteItem>}
+                        </Autocomplete>
                     </div>
                 </div>
 
-                {activeMainTab === "Airport/Local" || activeTab === "Airport" || activeWhichLocationTab &&
-                    <>
-                        <div className={`${activeTab === "from-airport" ? "" : "hidden"}  w-[80%] mx-auto min-h-[130px] max-h-[130px] relative flex items-center mt-3`}>
-                            <div className="min-w-[3px] max-w-[3px] border-l-4 border-blue border-dotted col min-h-[50%] max-h-[50%] absolute top-50 start-[48px] translate-middle"></div>
-                            <div className="flex flex-col w-100 min-h-[130px] max-h-[130px] justify-between">
-                                <div className="w-100 py-2 px-3 rounded-lg max-h-fit flex items-center gap-2 border-2 border-blue">
-                                    <input type="radio" />
-                                    <input className='h-fit w-[clamp(100%,100%,400px)]' placeholder='Pick-up Airport' type="text" />
-                                </div>
-                                <div className="w-100 py-2 px-3 rounded-lg max-h-fit flex items-center gap-2 border-2 border-blue">
-                                    <i class="fa-sharp fa-solid fa-location-dot tx-yellow"></i>
-                                    <input className='h-fit w-[clamp(100%,100%,400px)]' placeholder='Your Destination' type="text" />
-                                </div>
-                            </div>
-                        </div>
-                        <div className={`${activeTab === "to-airport" ? "" : "hidden"}  w-[80%] mx-auto min-h-[130px] max-h-[130px] relative flex items-center mt-3`}>
-                            <div className="min-w-[3px] max-w-[3px] border-l-4 border-blue border-dotted col min-h-[50%] max-h-[50%] absolute top-50 start-[48px] translate-middle"></div>
-                            <div className="flex flex-col w-100 min-h-[130px] max-h-[130px] justify-between">
-                                <div className="w-100 py-2 px-3 rounded-lg max-h-fit flex items-center gap-2 border-2 border-blue">
-                                    <i class="fa-sharp fa-solid fa-location-dot tx-yellow"></i>
-                                    <input className='h-fit w-[clamp(100%,100%,400px)]' placeholder='Your Destination' type="text" />
-                                </div>
-                                <div className="w-100 py-2 px-3 rounded-lg max-h-fit flex items-center gap-2 border-2 border-blue">
-                                    <input type="radio" />
-                                    <input className='h-fit w-[clamp(100%,100%,400px)]' placeholder='Pick-up Airport' type="text" />
-                                </div>
-                            </div>
-                        </div>
+                <div className={`${localSearchBarActive ? "" : "hidden"} col w-100 mt-4 flex flex-col gap-5`}>
+                    <div className="col flex gap-2 border-2 border-org rounded-md bs-white relative">
+                        <Autocomplete
+                            label=""
+                            defaultItems={citySelector}
+                            placeholder="Select your City"
+                            className="col w-100 !font-bold py-1 !text-[14px] autocompleate-custome"
+                        >
+                            {(animal) => <AutocompleteItem key={animal.value}>{animal.label}</AutocompleteItem>}
+                        </Autocomplete>
+                    </div>
+                    <div className="col flex gap-2 border-2 border-org rounded-md bs-white relative">
+                        <Autocomplete
+                            label=""
+                            defaultItems={packageSelector}
+                            placeholder="Select your Package"
+                            className="col w-100 !font-bold py-1 !text-[14px] autocompleate-custome"
+                        >
+                            {(animal) => <AutocompleteItem key={animal.value}>{animal.label}</AutocompleteItem>}
+                        </Autocomplete>
+                    </div>
+                </div>
+            </div>
 
-                        <div className="w-[80%] mx-auto flex gap-4 mt-3">
-                            <div class="col border-2 border-blue h-fit relative mt-3 rounded-lg flex items-center px-3">
-                                <p class="text-[12px] bs-white absolute top-[-10px] start-[10px] z-10 px-1 tx-grey">Pickup Date </p>
-                                <div className="">
-                                    <i class="fa-regular fa-calendar-days tx-blue"></i>
+
+            <div className={`${searchBarActive || localSearchBarActive ? "hidden" : ""}  mt-[35px] h-[calc(100vh-407px)] flex flex-col justify-between`}>
+
+                {activeMainTab === "Airport/Local" && activeTab === "Airport" &&
+                    <>
+                        <div className="">
+                            <div className={`h-fit w-[100%] flex justify-center  `}>
+                                <div className="flex border-2 rounded-lg bs-blu overflow-hidden">
+                                    <div onClick={() => setactiveWhichLocationTab("from-airport")} className={` ${activeWhichLocationTab === "from-airport" ? " bs-blue tx-white slide-left font-bold" : " bs-white tx-black font-semibold"}  flex items-center pointer px-3 py-1 rounded-md gap-2 `}>
+                                        <p className='text-[14px] font-Outfit'>From Airport</p>
+                                    </div>
+                                    <div onClick={() => setactiveWhichLocationTab("to-airport")} className={` ${activeWhichLocationTab === "to-airport" ? "bs-blue tx-white slide-right font-bold" : "  bs-white tx-black font-semibold"}  flex items-center pointer px-3 py-1 rounded-md gap-2 `}>
+                                        <p className='text-[14px] font-Outfit'>To Airport</p>
+                                    </div>
                                 </div>
-                                <DatePicker
-                                    label={""}
-                                    className="max-w-[284px]"
-                                    description={""}
-                                />
                             </div>
-                            <div className="col border-2 border-blue h-fit relative mt-3 rounded-lg gap-3 flex items-center px-3 py-2">
-                                <p class="text-[12px] bs-white absolute top-[-10px] start-[10px] z-10 px-1 tx-grey">Pickup Time </p>
-                                <div className="">
-                                    <img className=' min-w-[20px] max-w-[20px] object-cover' src="../../IMG/clock.png" alt="" />
+                            <div className={`${activeWhichLocationTab === "from-airport" ? "hidden" : ""}  w-[90%] mx-auto min-h-[110px] max-h-[110px] relative flex items-center mt-3`}>
+                                <div className="min-w-[3px] max-w-[3px] border-l-4 border-blue border-dotted col min-h-[35%] max-h-[35%] absolute top-50 start-[24px] translate-middle"></div>
+                                <div className="flex flex-col w-100 min-h-[110px] max-h-[110px] justify-between">
+                                    <div className="w-100  px-3 rounded-lg max-h-fit flex items-center gap-2 border-2 border-blue" onClick={() => setSearchBarActive(true)}>
+                                        <input type="radio" className='ms-[-2px]' />
+                                        <input className='py-2.5 h-fit w-[clamp(100%,100%,400px)]' placeholder='Pick-up Airport' type="text" />
+                                    </div>
+                                    <div className="w-100  px-3 rounded-lg max-h-fit flex items-center gap-2 border-2 border-blue" onClick={() => setSearchBarActive(true)}>
+                                        <i class="fa-sharp fa-solid fa-location-dot tx-yellow"></i>
+                                        <input className='py-2.5 h-fit w-[clamp(100%,100%,400px)]' placeholder='Your Destination' type="text" />
+                                    </div>
                                 </div>
-                                <div className="col">
-                                    <input className='col' type="time" />
+                            </div>
+                            <div className={`${activeWhichLocationTab === "to-airport" ? "hidden" : ""}  w-[90%] mx-auto min-h-[110px] max-h-[110px] relative flex items-center mt-3`}>
+                                <div className="min-w-[3px] max-w-[3px] border-l-4 border-blue border-dotted col min-h-[35%] max-h-[35%] absolute top-50 start-[24px] translate-middle"></div>
+                                <div className="flex flex-col w-100 min-h-[110px] max-h-[110px] justify-between">
+                                    <div className="w-100  px-3 rounded-lg max-h-fit flex items-center gap-2 border-2 border-blue" onClick={() => setSearchBarActive(true)}>
+                                        <input type="radio" className='ms-[-2px]' />
+                                        <input className='py-2.5 h-fit w-[clamp(100%,100%,400px)]' placeholder='Your Destination' type="text" />
+                                    </div>
+                                    <div className="w-100  px-3 rounded-lg max-h-fit flex items-center gap-2 border-2 border-blue" onClick={() => setSearchBarActive(true)}>
+                                        <i class="fa-sharp fa-solid fa-location-dot tx-yellow"></i>
+                                        <input className='py-2.5 h-fit w-[clamp(100%,100%,400px)]' placeholder='Pick-up Airport' type="text" />
+                                    </div>
                                 </div>
+                            </div>
+                            <div className="w-[90%] mx-auto flex gap-3 mt-3">
+                                <div class="col w-50 border-2 border-blue h-fit relative mt-3 rounded-lg flex items-center px-3">
+                                    <p class="text-[12px] bs-white absolute top-[-10px] start-[10px] z-10 px-1 tx-grey">Pickup Date </p>
+                                    <div className="">
+                                        <i class="fa-regular fa-calendar-days tx-blue"></i>
+                                    </div>
+                                    <DatePicker
+                                        label={""}
+                                        className="max-w-[284px]"
+                                        description={""}
+                                    />
+                                </div>
+                                <div className="col w-50 border-2 border-blue h-fit relative mt-3 rounded-lg gap-3 flex items-center px-3 py-2">
+                                    <p class="text-[12px] bs-white absolute top-[-10px] start-[10px] z-10 px-1 tx-grey">Pickup Time </p>
+                                    <div className="">
+                                        <img className=' min-w-[20px] max-w-[20px] object-cover' src="../../IMG/clock.png" alt="" />
+                                    </div>
+                                    <div className="col">
+                                        <input className='w-[clamp(100%,100%,100%)]' type="time" />
+                                    </div>
+                                </div>
+                            </div>
+                            <div className="min-w-[100%] max-w-[320px] h-[clamp(150px,150px,150px)] mx-auto">
+                                <Slider {...carslider} className='w-100'>
+                                    <div className="col mt-4">
+                                        <div className="w-[90%] mx-auto bs-blue rounded-xl">
+                                            <div className="w-100 flex items-center justify-between">
+                                                <div className="bs-org w-fit h-fit rounded-br-xl rounded-tl-xl">
+                                                    <div className="mt-[-30px] ms-[-10px] pe-3 py-1">
+                                                        <img className='w-[clamp(180px,180px,180px)] object-cover' src="../../public/IMG/car-slider.png" alt="" />
+                                                    </div>
+                                                </div>
+                                                <div className="px-3">
+                                                    <p className='tx-white text-[23px] font-bold font-Outfit tracking-wider'> ₹9/Km</p>
+                                                </div>
+                                            </div>
+                                            <div className="flex justify-between items-end px-3 py-2">
+                                                <div className="">
+                                                    <p className='tx-white text-[20px] font-bold font-Outfit tracking-widest'>Preminum SUV</p>
+                                                    <div className="tx-white text-[14px] font-Outfit tracking-widest ">Innova or Innova Crysta</div>
+                                                </div>
+                                                <div className="flex items-center py-2 gap-1">
+                                                    <p className='tx-white text-[16px] font-bold '>6</p>
+                                                    <i class="fa-solid fa-user tx-white"></i>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div className="col mt-4">
+                                        <div className="w-[90%] mx-auto bs-blue rounded-xl">
+                                            <div className="w-100 flex items-center justify-between">
+                                                <div className="bs-org w-fit h-fit rounded-br-xl rounded-tl-xl">
+                                                    <div className="mt-[-30px] ms-[-10px] pe-3 py-1">
+                                                        <img className='w-[clamp(180px,180px,180px)] object-cover' src="../../public/IMG/car-slider.png" alt="" />
+                                                    </div>
+                                                </div>
+                                                <div className="px-3">
+                                                    <p className='tx-white text-[23px] font-bold font-Outfit tracking-wider'> ₹9/Km</p>
+                                                </div>
+                                            </div>
+                                            <div className="flex justify-between items-end px-3 py-2">
+                                                <div className="">
+                                                    <p className='tx-white text-[20px] font-bold font-Outfit tracking-widest'>Preminum SUV</p>
+                                                    <div className="tx-white text-[14px] font-Outfit tracking-widest ">Innova or Innova Crysta</div>
+                                                </div>
+                                                <div className="flex items-center py-2 gap-1">
+                                                    <p className='tx-white text-[16px] font-bold '>6</p>
+                                                    <i class="fa-solid fa-user tx-white"></i>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </Slider>
                             </div>
                         </div>
                     </>
                 }
 
 
-
-
-
-
-
-
-
-
-                {activeMainTab === "Local" &&
+                {activeMainTab === "Airport/Local" && activeTab === "Local" &&
                     <>
-                        local
+                        <div className={`${activeWhichLocationTab === "from-airport" ? "hidden" : ""}  w-[80%] mx-auto min-h-[110px] max-h-[110px] relative flex items-center mt-3`}>
+                            <div className="min-w-[3px] max-w-[3px] border-l-4 border-blue border-dotted col min-h-[35%] max-h-[35%] absolute top-50 start-[24px] translate-middle"></div>
+                            <div className="flex flex-col w-100 min-h-[110px] max-h-[110px] justify-between">
+                                <div className="w-100  px-3 rounded-lg max-h-fit flex items-center gap-2 border-2 border-blue" onClick={() => setLocalSearchBarActive(true)}>
+                                    <input type="radio" className='ms-[-2px]' />
+                                    <input className='py-2.5 h-fit w-[clamp(100%,100%,400px)]' placeholder='Pick-up Airport' type="text" />
+                                </div>
+                                <div className="w-100  px-3 rounded-lg max-h-fit flex items-center gap-2 border-2 border-blue" onClick={() => setLocalSearchBarActive(true)}>
+                                    <i class="fa-sharp fa-solid fa-location-dot tx-yellow"></i>
+                                    <input className='py-2.5 h-fit w-[clamp(100%,100%,400px)]' placeholder='Your Destination' type="text" />
+                                </div>
+                            </div>
+                        </div>
+                        <div className={`${activeWhichLocationTab === "to-airport" ? "hidden" : ""}  w-[80%] mx-auto min-h-[110px] max-h-[110px] relative flex items-center mt-3`}>
+                            <div className="min-w-[3px] max-w-[3px] border-l-4 border-blue border-dotted col min-h-[35%] max-h-[35%] absolute top-50 start-[24px] translate-middle"></div>
+                            <div className="flex flex-col w-100 min-h-[110px] max-h-[110px] justify-between">
+                                <div className="w-100  px-3 rounded-lg max-h-fit flex items-center gap-2 border-2 border-blue" onClick={() => setLocalSearchBarActive(true)}>
+                                    <input type="radio" className='ms-[-2px]' />
+                                    <input className='py-2.5 h-fit w-[clamp(100%,100%,400px)]' placeholder='Your Destination' type="text" />
+                                </div>
+                                <div className="w-100  px-3 rounded-lg max-h-fit flex items-center gap-2 border-2 border-blue" onClick={() => setLocalSearchBarActive(true)}>
+                                    <i class="fa-sharp fa-solid fa-location-dot tx-yellow"></i>
+                                    <input className='py-2.5 h-fit w-[clamp(100%,100%,400px)]' placeholder='Pick-up Airport' type="text" />
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <div className="min-w-[100%] max-w-[320px] h-[clamp(150px,150px,150px)] mx-auto">
+                            <Slider {...carslider} className='w-100'>
+                                <div className="col mt-4">
+                                    <div className="w-[90%] mx-auto bs-blue rounded-xl">
+                                        <div className="w-100 flex items-center justify-between">
+                                            <div className="bs-org w-fit h-fit rounded-br-xl rounded-tl-xl">
+                                                <div className="mt-[-30px] ms-[-10px] pe-3 py-1">
+                                                    <img className='w-[clamp(180px,180px,180px)] object-cover' src="../../public/IMG/car-slider.png" alt="" />
+                                                </div>
+                                            </div>
+                                            <div className="px-3">
+                                                <p className='tx-white text-[23px] font-bold font-Outfit tracking-wider'> ₹9/Km</p>
+                                            </div>
+                                        </div>
+                                        <div className="flex justify-between items-end px-3 py-2">
+                                            <div className="">
+                                                <p className='tx-white text-[20px] font-bold font-Outfit tracking-widest'>Preminum SUV</p>
+                                                <div className="tx-white text-[14px] font-Outfit tracking-widest ">Innova or Innova Crysta</div>
+                                            </div>
+                                            <div className="flex items-center py-2 gap-1">
+                                                <p className='tx-white text-[16px] font-bold '>6</p>
+                                                <i class="fa-solid fa-user tx-white"></i>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div className="col mt-4">
+                                    <div className="w-[90%] mx-auto bs-blue rounded-xl">
+                                        <div className="w-100 flex items-center justify-between">
+                                            <div className="bs-org w-fit h-fit rounded-br-xl rounded-tl-xl">
+                                                <div className="mt-[-30px] ms-[-10px] pe-3 py-1">
+                                                    <img className='w-[clamp(180px,180px,180px)] object-cover' src="../../public/IMG/car-slider.png" alt="" />
+                                                </div>
+                                            </div>
+                                            <div className="px-3">
+                                                <p className='tx-white text-[23px] font-bold font-Outfit tracking-wider'> ₹9/Km</p>
+                                            </div>
+                                        </div>
+                                        <div className="flex justify-between items-end px-3 py-2">
+                                            <div className="">
+                                                <p className='tx-white text-[20px] font-bold font-Outfit tracking-widest'>Preminum SUV</p>
+                                                <div className="tx-white text-[14px] font-Outfit tracking-widest ">Innova or Innova Crysta</div>
+                                            </div>
+                                            <div className="flex items-center py-2 gap-1">
+                                                <p className='tx-white text-[16px] font-bold '>6</p>
+                                                <i class="fa-solid fa-user tx-white"></i>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </Slider>
+                        </div>
                     </>
                 }
-                <div className="w-100 px-4 mt-4">
-                    <div className="w-100 bs-blue text-center py-2 rounded-2">
-                        <p className='text-[15px] font-semibold tx-white'>Let's YBGO!</p>
-                    </div>
-                </div>
-
-
-
-                <BottomBar />
-
             </div>
+
+
+            <div className={`${searchBarActive || localSearchBarActive ? "" : "hidden"}  w-100 px-3 mt-4`} onClick={() => { setSearchBarActive(false), setLocalSearchBarActive(false) }}>
+                <div className="w-100 bs-blue text-center py-2.5 rounded-2">
+                    <p className='text-[15px] font-semibold tx-white'>Let's YBGO!</p>
+                </div>
+            </div>
+            <div className={`${searchBarActive || localSearchBarActive ? "hidden" : ""}  w-100 px-3 mt-4`} >
+                <div className="w-100 bs-blue text-center py-2.5 rounded-2">
+                    <p className='text-[15px] font-semibold tx-white'>Let's YBGO!</p>
+                </div>
+            </div>
+
+
+
+            <BottomBar />
+
         </>
     )
 }
@@ -176,9 +447,9 @@ export default function Home({ activeMainTab, setActiveMainTab, menuOverLap, set
 
 
 {/* <div className={`${addStop ? "" : "d-none"}  w-100 px-4 mt-3`}>
-                            <div className="col py-2 px-3 rounded-lg max-h-fit flex items-center gap-2 border-2 border-blue">
+                            <div className="col  px-3 rounded-lg max-h-fit flex items-center gap-2 border-2 border-blue">
                                 <i class="fa-sharp fa-solid fa-location-dot tx-blue"></i>
-                                <input className='h-fit w-[clamp(100%,100%,400px)]' placeholder='Pick-up Location' type="text" />
+                                <input classNamepy-2.5 ='h-fit w-[clamp(100%,100%,400px)]' placeholder='Pick-up Location' type="text" />
                             </div>
                         </div>
                         <div className="flex justify-between items-center">

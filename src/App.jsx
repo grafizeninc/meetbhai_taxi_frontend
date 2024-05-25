@@ -13,7 +13,7 @@ function App() {
   const [menuOverLap, setmenuOverLap] = useState(true)
   // const [menuOverLap, setmenuOverLap] = useState(true)
   const [addPakagesModal, setAddPakagesModal] = useState(false);
-  const [activeMainTab, setActiveMainTab] = useState("Airport")
+  const [activeMainTab, setActiveMainTab] = useState("Airport/Local")
 
   const userlocation = useLocation();
   const currentLocation = userlocation.pathname;
@@ -46,7 +46,7 @@ function App() {
             <div className='w-100 max-w-[100%] ease-in  flex gap-4 justify-between'>
               <div className={`col ease-in h-[100vh] flex flex-col ${menuOverLap ? " gap-0" : " gap-0"} justify-between `}>
                 {/* <Topbar activeMainTab={activeMainTab} setActiveMainTab={setActiveMainTab} menuOverLap={menuOverLap} setmenuOverLap={setmenuOverLap} setAddPakagesModal={setAddPakagesModal} currentLocation={currentLocation} /> */}
-                <div className={`w-100  ${menuOverLap ? "h-[calc(100vh-190px)]" : "h-[calc(100vh-175px)]"} mx-auto shadow-md  overflow-hidden `}>
+                <div className={`w-100  ${menuOverLap ? "h-[calc(100vh-0px)]" : "h-[calc(100vh-175px)]"} mx-auto shadow-md  overflow-hidden `}>
                   <Routes>
                     <Route path="/" element={<Home activeMainTab={activeMainTab} setActiveMainTab={setActiveMainTab} menuOverLap={menuOverLap} setmenuOverLap={setmenuOverLap} />} />
                     <Route path="/airport" element={<Airport />} />
