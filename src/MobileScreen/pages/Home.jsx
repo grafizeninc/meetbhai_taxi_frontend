@@ -1,5 +1,5 @@
-import { Autocomplete, AutocompleteItem, DatePicker, Modal, ModalContent, ModalHeader, backdrop, ModalBody, ModalFooter, Button, useDisclosure } from '@nextui-org/react';
-import React, { useState } from 'react';
+import { Autocomplete, AutocompleteItem, DatePicker, Modal, ModalContent, ModalHeader, ModalBody, ModalFooter, Button, useDisclosure } from '@nextui-org/react';
+import React, { useEffect, useState } from 'react';
 import BottomBar from '../components/menu/BottomBar';
 import { Link } from 'react-router-dom';
 import Slider from 'react-slick';
@@ -11,7 +11,6 @@ export default function Home({ activeMainTab, setActiveMainTab, menuOverLap, set
     const [localSearchBarActive, setLocalSearchBarActive] = useState(false);
     const [carSelectorActive, setcarSelectorActive] = useState(false);
     const [addStop, setAddStop] = useState(false);
-
     const { isOpen, onOpen, onOpenChange } = useDisclosure();
     const [locaationPermissionModal, setLocaationPermissionModal] = useState(false);
 
@@ -23,10 +22,8 @@ export default function Home({ activeMainTab, setActiveMainTab, menuOverLap, set
     }
 
     useEffect(() => {
-        if(localSearchBarActive === true )
-            setTimeout(() => {
-                handleLocaationPermissionModal();
-            }, 1000); 
+        if(localSearchBarActive === true ) 
+                handleLocaationPermissionModal(); 
     }, [searchBarActive, localSearchBarActive])
 
 
@@ -93,7 +90,6 @@ export default function Home({ activeMainTab, setActiveMainTab, menuOverLap, set
             },
         ]
     });
-
     const airportSelector = [
         { label: "HSR - Rajkot Hirasar International Airport", value: "1", },
         { label: "AMD - Sardar Vallabhbhai Patel International Airport", value: "2", },
@@ -223,7 +219,7 @@ export default function Home({ activeMainTab, setActiveMainTab, menuOverLap, set
                 {activeMainTab === "Airport/Local" && activeTab === "Airport" &&
                     <>
                         <div className="">
-                            <div className={`h-fit w-[100%] flex justify-center  `}>
+                            <div className={`h-fit w-[100%] flex justify-center `}>
                                 <div className="flex border-2 rounded-lg bs-blu overflow-hidden">
                                     <div onClick={() => setactiveWhichLocationTab("from-airport")} className={` ${activeWhichLocationTab === "from-airport" ? " bs-blue tx-white slide-left font-bold" : " bs-white tx-black font-semibold"}  flex items-center pointer px-3 py-1 rounded-md gap-2 `}>
                                         <p className='text-[14px] font-Outfit'>From Airport</p>

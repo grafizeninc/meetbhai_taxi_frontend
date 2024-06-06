@@ -185,7 +185,7 @@ body {
 }
 
 .bs-mix-org {
-  background: linear-gradient(0deg, #ff8929, #ffbc3d) !important;
+  background: linear-gradient(80deg, #ff8929, #ff8929, #fff) !important;
 }
 
 .bs-mix-org-l {
@@ -1635,7 +1635,7 @@ button:not(:disabled) {
   height: 100%;
   opacity: 0;
 }
- 
+
 input[type=time] {
   display: inline-block;
   position: relative;
@@ -1652,4 +1652,10 @@ input[type=time]::-webkit-calendar-picker-indicator {
   right: 0;
   top: 0;
   width: auto;
+}
+
+.hero-custome-date div {
+  background: #fff !important;
+  box-shadow: none !important;
+  padding-left: 2px !important;
 }

@@ -1,8 +1,8 @@
 import { Autocomplete, AutocompleteItem } from '@nextui-org/react'
 import React, { useEffect, useState } from 'react'
-import { deleteStateAction, getAllStateAction } from '../../../redux/actions/state'
-import { useDispatch, useSelector } from 'react-redux'
-import { deleteCategoryAction, getAllCityAction } from '../../../redux/actions/city'
+import { useDispatch, useSelector } from 'react-redux' 
+import { deleteStateAction, getAllStateAction } from '../../../../redux/actions/state'
+import { deleteCategoryAction, getAllCityAction } from '../../../../redux/actions/city'
 
 
 export default function LocationMaster() {
@@ -51,8 +51,6 @@ export default function LocationMaster() {
         { id: 10, stateCode: "RJ", stateName: "Rajsathan", citycode: "JIP", cityname: "Jaipur", dataLogsAd: "11/10/2023 - 09:10 AM", dataLogsUp: "10/10/2023 - 09:20 AM", },
         { id: 10, stateCode: "RJ", stateName: "Rajsathan", citycode: "JIP", cityname: "Jaipur", dataLogsAd: "11/10/2023 - 09:10 AM", dataLogsUp: "10/10/2023 - 09:20 AM", },
     ]
-
-
     const airportSelector = [
         { label: "HSR - Rajkot Hirasar International Airport", value: "1", },
         { label: "AMD - Sardar Vallabhbhai Patel International Airport", value: "2", },
@@ -85,7 +83,6 @@ export default function LocationMaster() {
         setSelectAll(checked);
         if (checked) {
             setSelectedRows(getAllState)
-
         } else {
             setSelectedRows([]);
         }

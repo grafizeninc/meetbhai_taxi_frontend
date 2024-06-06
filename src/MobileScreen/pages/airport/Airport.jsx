@@ -1,7 +1,7 @@
 import { Autocomplete, AutocompleteItem, Modal, ModalBody, ModalContent, Select, SelectItem, useDisclosure } from "@nextui-org/react";
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from "react-redux";
-import { deleteAirPortAction, getAllAirPortAction } from "../../redux/actions/airport";
+import { deleteAirPortAction, getAllAirPortAction } from "../../../redux/actions/airport";
 // import Chip from '@mui/material/Chip';
 // import Autocomplete from '@mui/material/Autocomplete';
 // import TextField from '@mui/material/TextField';
@@ -13,9 +13,7 @@ export default function Airport() {
     const [activeAirportBtn, setActiveAirportBtn] = useState("airport-list")
     const [activeDestinationBtn, setActiveDestinationBtn] = useState("") 
     const [activeDestinationList, setActiveDestinationList] = useState("") 
-
     const { getAllAirport } = useSelector((state) => state?.airportState); 
-  
     const [iterationCounter, setIterationCounter] = useState();
     const dispatch = useDispatch()
     const [selectAll, setSelectAll] = useState(false);
@@ -23,7 +21,6 @@ export default function Airport() {
     const [filterData, setFilterData] = useState({
         code_or_name: "",
     });
-
     const [filteredData, setFilteredData] = useState([]);
     const [inputValue, setInputValue] = useState('');
     const [selectedOptions, setSelectedOptions] = useState([]);
