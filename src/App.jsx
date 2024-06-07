@@ -62,7 +62,7 @@ function App() {
             <div className='w-100 max-w-[100%] ease-in hidden md:!flex gap-4 justify-between'>
               <div className={`col ease-in h-[100vh] flex flex-col justify-between`}>
                 <Header />
-                <div className={`w-100 h-[calc(100vh-0px)] mx-auto shadow-md overflow-hidden `}>
+                <div className={`w-100 mx-auto shadow-md `}>
                   <Routes>
                     <Route path="/" element={<Landingpage />} />
                   </Routes>
