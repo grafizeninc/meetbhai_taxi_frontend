@@ -660,26 +660,6 @@ input[type="number"] {
   position: relative;
 }
 
-/* width */
-::-webkit-scrollbar {
-  width: 3px;
-  transition: 1s ease-in-out;
-  box-shadow: inset 4px 4px 15px rgba(0, 0, 0, 0.199);
-}
-
-/* Track */
-::-webkit-scrollbar-track {
-  /* box-shadow: inset 0 0 5px grey; */
-  border-radius: 10px;
-  box-shadow: 4px 4px 15px rgba(0, 0, 0, 0.199);
-}
-
-/* Handle */
-::-webkit-scrollbar-thumb {
-  border-radius: 10px;
-  background: #fff;
-  box-shadow: 4px 4px 15px rgba(0, 0, 0, 0.199);
-}
 
 .label-float input,
 .label-float select {
@@ -1585,6 +1565,22 @@ button:not(:disabled) {
 }
 
 
+/* width */
+::-webkit-scrollbar {
+  width: 4px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: var(--bs-orange);
+}
+
+
 .temp-grid {
   display: grid;
   justify-content: space-between;
@@ -1658,4 +1654,37 @@ input[type=time]::-webkit-calendar-picker-indicator {
   background: #fff !important;
   box-shadow: none !important;
   padding-left: 2px !important;
+}
+
+
+.anime-dotted-ln-svg {
+  position: absolute;
+  bottom: 0;
+  right: -70px;
+  -webkit-transform: scaleX(-1);
+  transform: scaleX(-1);
+  user-select: none;
+  cursor: context-menu;
+}
+
+.anime-dotted-ln-svg path {
+  stroke-dasharray: 4;
+  stroke-dashoffset: 0;
+  animation: tp-svg-line 30s linear forwards infinite;
+}
+
+@keyframes tp-svg-line {
+  100% {
+    stroke-dashoffset: 350;
+  }
+}
+
+.active-level {
+  opacity: 0.75;
+  transition: 0.5s ease-in-out;
+}
+
+.active-cad:hover .active-level {
+  opacity: 1 !important;
+  transition: 0.5s ease-in-out;
 }

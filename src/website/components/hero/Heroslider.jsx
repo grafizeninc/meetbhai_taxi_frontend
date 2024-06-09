@@ -4,9 +4,9 @@ import React from 'react'
 export default function Heroslider() {
     return (
         <>
-            <div className="h-[100vh] flex items-center relative ">
-                <div className="h-100 w-100 absolute top-0 left-0">
-                    <img className='w-100 h-100 object-fill opacity-90' src="../../../../public/IMG/Slider-back-1.png" alt="" />
+            <div className="h-[100vh] flex items-center relative">
+                <div className="h-100 w-100 absolute top-0 left-0 opacity-90 border-b-2 border-org">
+                    <img className='w-100 h-100 object-fill' src="../../../../public/IMG/Slider-back-1.png" alt="" />
                 </div>
                 <div className="w-[75%] mx-auto flex items-center justify-between">
                     <div className="flex flex-col h-fit gap-4 bs-white relative z-[90] w-[clamp(500px,500px,500px)] rounded-xl py-[45px] px-4 shadow-2">

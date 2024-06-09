@@ -9,6 +9,7 @@ import VehicleMaster from './MobileScreen/pages/vehicle/VehicleMaster';
 import Airport from './MobileScreen/pages/airport/Airport';
 import Landingpage from './website/pages/home/Landingpage';
 import Header from './website/components/header/Header';
+import AboutUs from './website/pages/about/AboutUs';
 
 function App() {
   const [loading, setLoading] = useState(true);
@@ -59,17 +60,15 @@ function App() {
                 </div>
               </div>
             </div>
-            <div className='w-100 max-w-[100%] ease-in hidden md:!flex gap-4 justify-between'>
-              <div className={`col ease-in h-[100vh] flex flex-col justify-between`}>
-                <Header />
-                <div className={`w-100 mx-auto shadow-md `}>
-                  <Routes>
-                    <Route path="/" element={<Landingpage />} />
-                  </Routes>
-                </div>
+            <div className='w-100 max-w-[100%] ease-in hidden md:!block  '>
+              <Header />
+              <div className={`w-100 mx-auto shadow-md `}>
+                <Routes>
+                  <Route path="/" element={<Landingpage />} />
+                  <Route path="/about-us" element={<AboutUs />} />
+                </Routes>
               </div>
             </div>
-
           </>
         }
       </div>
