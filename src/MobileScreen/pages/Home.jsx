@@ -348,11 +348,11 @@ export default function Home({ activeMainTab, setActiveMainTab, menuOverLap, set
                                 {/* <div className="min-w-[3px] max-w-[3px] border-l-4 border-blue border-dotted col min-h-[35%] max-h-[35%] absolute top-50 start-[24px] translate-middle"></div> */}
                                 <div className="flex flex-col w-100 min-h-[120px] max-h-[120px] justify-between">
                                     <div className="w-100  px-3 rounded-lg max-h-fit flex items-center gap-2 border-2 border-blue" onClick={() => setLocalSearchBarActive(true)}>
-                                        <input type="radio" className='ms-[-2px]' />
+                                        <input type="radio" className='me-2.5' />
                                         <input className='py-2.5 h-fit w-[clamp(100%,100%,400px)]' placeholder='Select your City' type="text" />
                                     </div>
                                     <div className="w-100  px-3 rounded-lg max-h-fit flex items-center gap-2 border-2 border-blue" onClick={() => setLocalSearchBarActive(true)}>
-                                        <img className='min-w-[20px] max-w-[20px] object-cover' src="../../public/IMG/pakages.png" alt="" />
+                                        <img className='min-w-[20px] max-w-[20px] object-cover' src="../../../public/IMG/package-selection.png" alt="" />
                                         <input className='py-2.5 h-fit w-[clamp(100%,100%,400px)]' placeholder='Select your Package' type="text" />
                                     </div>
                                 </div>

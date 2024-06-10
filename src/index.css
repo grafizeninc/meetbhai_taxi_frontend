@@ -415,3 +415,53 @@
     transform: scale(1);
   }
 } */
+
+
+
+/* Input container */
+.input-container {
+  position: relative;
+  /* margin: 20px; */
+}
+
+/* Input field */
+.input-field {
+  display: block;
+  width: 100%;
+  padding: 10px;
+  font-size: 16px;
+  border: none;
+  border-bottom: 2px solid #ccc;
+  outline: none;
+  background-color: transparent;
+}
+
+/* Input label */
+.input-label {
+  position: absolute;
+  top: 0;
+  left: 0;
+  font-size: 16px;
+  color: rgba(204, 204, 204, 0);
+  pointer-events: none;
+  transition: all 0.7s ease-in-out;
+}
+
+/* Input highlight */
+.input-highlight {
+  position: absolute;
+  bottom: 0px;
+  left: 0;
+  height: 2px;
+  width: 0;
+  background-color: #ff8000;
+  transition: all 0.7s ease-in-out;
+}
+
+.input-field:focus + .input-label + .input-highlight {
+  width: 100%;
+}
+
+.bg-transparent {
+  top: 6px !important;
+}

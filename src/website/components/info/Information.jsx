@@ -9,7 +9,7 @@ export default function Information() {
     ]
     return (
         <>
-            <div className="w-[75%] mx-auto h-[70vh] flex flex-col items-center justify-center">
+            <div className="w-[75%] mx-auto py-5 flex flex-col items-center justify-center">
                 <div className="">
                     <p className="text-[30px] font-Outfit font-bold">Our Popular Fleets</p>
                 </div>

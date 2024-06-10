@@ -16,9 +16,11 @@ export default function Header() {
                             </div> */}
                         </div>
                         <div className="flex items-center justify-between bs-white border-y-2 border-s-2 rounded-l-xl px-4 !pe-[280px] border-org col drop-shadow-lg">
-                            <div className="px-5">
-                                <p className='text-[30px] font-Outfit font-extrabold tracking-widest tx-whit'>TAXI</p>
-                            </div>
+                            <Link to="/">
+                                <div className="px-5">
+                                    <p className='text-[30px] font-Outfit font-extrabold tracking-widest tx-whit'>TAXI</p>
+                                </div>
+                            </Link>
                             <div className="flex gap-4 items-center justify-center pe-5">
                                 <Link to="/">
                                     <div className="">
@@ -30,7 +32,7 @@ export default function Header() {
                                         <p className='text-[15px] font-Outfit font-bold opacity-80 hover:text-[#ff8000] duration-500'>About Us</p>
                                     </div>
                                 </Link>
-                                <Link to="/">
+                                <Link to="/contact-us">
                                     <div className="">
                                         <p className='text-[15px] font-Outfit font-bold opacity-80 hover:text-[#ff8000] duration-500'>Contact Us</p>
                                     </div>

@@ -10,6 +10,7 @@ import Airport from './MobileScreen/pages/airport/Airport';
 import Landingpage from './website/pages/home/Landingpage';
 import Header from './website/components/header/Header';
 import AboutUs from './website/pages/about/AboutUs';
+import ContactUs from './website/pages/contact/ContactUs';
 
 function App() {
   const [loading, setLoading] = useState(true);
@@ -27,7 +28,7 @@ function App() {
       // Perform your asynchronous operation here
 
       // Simulate a delay (remove this line in a real application)
-      await new Promise(resolve => setTimeout(resolve, 0));
+      await new Promise(resolve => setTimeout(resolve, 500));
 
       // Once the data is loaded, set loading to false
       setLoading(false);
@@ -60,12 +61,13 @@ function App() {
                 </div>
               </div>
             </div>
-            <div className='w-100 max-w-[100%] ease-in hidden md:!block  '>
+            <div className='w-100 max-w-[100%] ease-in hidden md:!block'>
               <Header />
               <div className={`w-100 mx-auto shadow-md `}>
                 <Routes>
                   <Route path="/" element={<Landingpage />} />
                   <Route path="/about-us" element={<AboutUs />} />
+                  <Route path="/contact-us" element={<ContactUs />} />
                 </Routes>
               </div>
             </div>

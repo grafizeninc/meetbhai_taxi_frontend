@@ -10,7 +10,7 @@ export default function HowItWorks() {
 
     return (
         <>
-            <div className="w-100 h-[70vh] flex flex-col items-center justify-center">
+            <div className="w-100 flex flex-col pb-5 items-center justify-center">
                 <div className="my-5">
                     <p className="text-[30px] font-Outfit font-bold">How It Works</p>
                 </div>

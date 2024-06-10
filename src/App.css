@@ -1456,10 +1456,10 @@ input:focus {
 
 .autocompleate-custome .bg-default-100 {
   background: #fff !important;
-}
-
-.autocompleate-custome .shadow-sm {
-  box-shadow: none !important;
+  }
+  
+  .autocompleate-custome .shadow-sm {
+    box-shadow: none !important;
 }
 
 .autocompleate-custome svg {

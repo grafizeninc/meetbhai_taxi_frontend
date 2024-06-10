@@ -3,7 +3,7 @@ import React from 'react'
 export default function Footer() {
     return (
         <>
-            <div className="w-100 relative mt-[700px] p-4">
+            <div className="w-100 relative p-4">
                 <div className="w-100">
                     <div className="w-100 flex items-end justify-between mx-auto box-border bs-white relative overflow-hidden drop-shadow-lg rounded-3xl">
                         <div className="w-[clamp(650px,650px,650px)] h-[clamp(600px,600px,600px)]  bs-org absolute end-0 bottom-0 rotate-[40deg] origin-bottom-left">
