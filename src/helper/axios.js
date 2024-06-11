@@ -3,7 +3,8 @@ import auth from "../config/auth";
 
 // export const BaseURL = API.endpoint + "/";
 // export const BaseURL = process.env.REACT_APP_LOCAL_API_URL;
-export const BaseURL = "https://rotten-marjy-newtonian-9d481b7c.koyeb.app";
+// export const BaseURL = "https://rotten-marjy-newtonian-9d481b7c.koyeb.app";
+export const BaseURL = "http://localhost:3000";
 // export const BaseURL = "https://manzzri-backend.vercel.app";
 
 const defaultHeaders = {
