@@ -19,6 +19,20 @@ export const ADD_ROLES = "ADD_ROLES";
 export const UPDATE_ROLES = "UPDATE_ROLES";
 export const DELETE_ROLES = "DELETE_ROLES";
 
+//Booking
+export const GET_ALL_BOOKING = "GET_ALL_BOOKING";
+export const ADD_BOOKING = "ADD_BOOKING";
+export const UPDATE_BOOKING = "UPDATE_BOOKING";
+export const DELETE_BOOKING = "DELETE_BOOKING";
+
+//HourlyRent
+export const GET_ALL_HOURLYRENT = "GET_ALL_HOURLYRENT";
+export const ADD_HOURLYRENT = "ADD_HOURLYRENT";
+export const UPDATE_HOURLYRENT = "UPDATE_HOURLYRENT";
+export const DELETE_HOURLYRENT = "DELETE_HOURLYRENT";
+//HourlyRent
+export const GET_ALL_LOCAL_PACKAGES = "GET_ALL_LOCAL_PACKAGES";
+
 //CITY
 export const GET_ALL_CITY = "GET_ALL_CITY";
 export const ADD_CITY = "ADD_CITY";

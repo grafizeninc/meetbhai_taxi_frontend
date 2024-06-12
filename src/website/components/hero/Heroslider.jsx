@@ -3,32 +3,91 @@ import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { getAllCityAction } from "../../../redux/actions/city";
 import Slider from 'react-slick';
+import { addBookingAction } from '../../../redux/actions/booking';
+import { getAllAirPortAction } from '../../../redux/actions/airport';
+import { getAllDestinationAction } from '../../../redux/actions/destination';
+import { getAllHourlyRentAction } from '../../../redux/actions/hourlyRent';
 
 export default function Heroslider() {
     const dispatch = useDispatch();
 
-    const [activeTrip, setActiveTrip] = useState("OutStation")
-    const [activeRoundTrip, setActiveRoundTrip] = useState("oneway")
-    const [activeAirportLocal, setActiveAirportLocal] = useState("airport")
-    const { getAllCity } = useSelector((state) => state?.cityState);
+    const [activeTrip, setActiveTrip] = useState("OutStation");
+    const [activeRoundTrip, setActiveRoundTrip] = useState("oneway");
+    const [activeAirportLocal, setActiveAirportLocal] = useState("airport");
+    const getAllCity = useSelector((state) => state?.cityState?.getAllCity || []);
+    const getAllAirport = useSelector((state) => state?.airPortState?.getAllAirPort || []);
+    const getAllDestination = useSelector((state) => state?.destinationState?.getAllAirPort || []);
+    const getAllhourlyPackages = useSelector((state) => state?.hourlyRentState?.getAllHourlyRent || []);
+    const [InitialData, setInitialData] = useState({
+        pickupLocation: "",
+        coddropoffLocatione: "",
+        pickupDate: "",
+        pickupTime: "",
+        bookingType: "",
+        categoryId: "",
+        km: "",
+        price: "",
+        subType: ""
+    });
 
+    console.log("🚀 ~ Heroslider ~ InitialData:", InitialData)
 
+    const handleDataChange = (e) => {
+        const { name, value } = e.target;
+        setInitialData((prevData) => ({
+            ...prevData,
+            [name]: value,
+        }));
+        // validator.message(name, value, "required");
+        // setValidationErrors((prevErrors) => ({
+        //   ...prevErrors,
+        //   [name]: validator.getErrorMessages()[name],
+        // }));
+    };
 
-    const cityList = getAllCity.map((state) => ({
-        id: state._id,
-        name: state.name,
-        code: state.code,
-        state_name: state.state_name,
-    }));
+    const handleBookingDataSubmit = (e) => {
 
+        e.preventDefault();
+        // if (validator.allValid()) {
 
+        let body = {
+            coddropoffLocatione: InitialData.pickupLocation,
+        }
+        dispatch(addBookingAction(body));
+
+        setInitialData();
+        // } else {
+        //     validator.showMessages();
+        //     setValidationErrors(validator.getErrorMessages());
+        // }
+    };
+
+    const cityList = Array.isArray(getAllCity) ? getAllCity.map((city) => ({
+        id: city._id,
+        name: city.name,
+        code: city.code,
+        state_name: city.state_name,
+    })) : [];
+    const airportList = Array.isArray(getAllAirport) ? getAllAirport.map((airport) => ({
+        id: airport._id,
+        name: airport.name,
+        code: airport.code,
+        cityName: airport.cityName,
+    })) : [];
+    // const destinationList = Array.isArray(getAllDestination) ? getAllDestination.map((destination) => ({
+    //     id: destination._id, 
+    // })) : [];
+    const hourlyPackageList = Array.isArray(getAllhourlyPackages) ? getAllhourlyPackages.map((hourlyPackage) => ({
+        id: hourlyPackage._id,
+        packageName: hourlyPackage.packageName, 
+    })) : [];
+    console.log("🚀 ~ hourlyPackageList ~ hourlyPackageList:", hourlyPackageList)
 
     const dummyCitySelector = [
         { label: "Rajkot", value: "1", },
         { label: "Surat", value: "2", },
         { label: "Chennai", value: "3", },
     ];
-
     const dummyCarSelector = [
         { label: "", value: "1", },
         { label: "", value: "2", },
@@ -38,13 +97,11 @@ export default function Heroslider() {
         { label: "", value: "6", },
         { label: "", value: "7", },
     ];
-
     const dummyPackageSelector = [
         { label: "₹7/Km", value: "1", },
         { label: "₹9/Km", value: "2", },
         { label: "₹11/Km", value: "3", },
     ];
-
     const carslider = ({
         arrows: false,
         infinite: true,
@@ -108,9 +165,11 @@ export default function Heroslider() {
         ]
     });
 
-
     useEffect(() => {
         dispatch(getAllCityAction());
+        dispatch(getAllAirPortAction());
+        dispatch(getAllDestinationAction());
+        dispatch(getAllHourlyRentAction());
     }, [dispatch]);
 
     return (
@@ -171,14 +230,15 @@ export default function Heroslider() {
                                             <div className="col w-50 relative rounded-lg flex flex-col gap-2 justify-center px-3">
                                                 <p class="text-[15px] font-semibold bs-white px-1 font-Outfit opacity-70">Pickup Time </p>
                                                 <div className="h-fit">
-                                                    <input className='w-[clamp(100%,100%,100%)] h-[clamp(35px,35px,35px)] px-2 py-0 ' type="time" />
+                                                    <input className='w-[clamp(100%,100%,100%)] h-[clamp(35px,35px,35px)] px-2 py-0 ' type="time" value={InitialData?.pickupDate}
+                                                        onChange={handleDataChange} />
                                                 </div>
                                             </div>
                                         </div>
                                     }
                                     {activeRoundTrip === "round" &&
                                         <>
-                                            <div className="w-50 flex">
+                                            {/* <div className="w-50 flex">
                                                 <div class="col w-50 relative rounded-lg flex flex-col justify-center px-3">
                                                     <p class="text-[15px] font-semibold bs-white px-1 font-Outfit opacity-70">Pickup Date </p>
                                                     <DatePicker
@@ -194,10 +254,10 @@ export default function Heroslider() {
                                                         <input className='w-[clamp(100%,100%,100%)] h-[clamp(35px,35px,35px)] px-2 py-0 ' type="time" />
                                                     </div>
                                                 </div>
-                                            </div>
-                                            {/* <div className="w-50 flex">
+                                            </div> */}
+                                            <div className="w-50 flex">
                                                 <div class="col relative rounded-lg flex flex-col gap-2 justify-center px-3">
-                                                    <p class="text-[15px] font-semibold bs-white px-1 font-Outfit opacity-70">Pickup Date </p>
+                                                    <p class="text-[15px] font-semibold bs-white px-1 font-Outfit opacity-70">Trip Date </p>
                                                     <DatePicker
                                                         label={""}
                                                         className="max-w-[284px] hero-custome-date"
@@ -206,7 +266,7 @@ export default function Heroslider() {
                                                 </div>
                                                 <div className="w-[clamp(2px,2px,2px)] bg-[#e5e7eb] rounded-full"></div>
                                                 <div class="col relative rounded-lg flex flex-col gap-2 justify-center px-3">
-                                                    <p class="text-[15px] font-semibold bs-white px-1 font-Outfit opacity-70">Drop Date </p>
+                                                    <p class="text-[15px] font-semibold bs-white px-1 font-Outfit opacity-70">Return Date </p>
                                                     <DatePicker
                                                         label={""}
                                                         className="max-w-[284px] hero-custome-date"
@@ -220,65 +280,58 @@ export default function Heroslider() {
                                                         <input className='w-[clamp(100%,100%,100%)] h-[clamp(35px,35px,35px)] px-2 py-0 ' type="time" />
                                                     </div>
                                                 </div>
-                                            </div> */}
+                                            </div>
                                         </>
                                     }
                                 </div>
 
-                                <div className="">
-                                    <div className={`w-100 h-[clamp(150px,150px,150px)] mx-auto`}>
-                                        <Slider {...carslider} className='w-100'>
-                                            {dummyCarSelector.map((item) => (
-                                                <div key={item} className="col mt-4">
-                                                    <div className="w-[90%] mx-auto bs-blue rounded-xl pointer">
-                                                        <div className="w-100 flex items-center justify-between">
-                                                            <div className="bs-org w-fit h-fit rounded-br-xl rounded-tl-xl">
-                                                                <div className="mt-[-30px] ms-[-10px] pe-3 py-1">
-                                                                    <img className='w-[clamp(180px,180px,180px)] object-cover' src="../../public/IMG/car-slider.png" alt="" />
-                                                                </div>
-                                                            </div>
-                                                            <div className="px-3">
-                                                                <p className='tx-white text-[23px] font-bold font-Outfit tracking-wider'> ₹9/Km</p>
+                                <div className={`w-100 h-[clamp(150px,150px,150px)] mx-auto`}>
+                                    <Slider {...carslider} className='w-100'>
+                                        {dummyCarSelector.map((item) => (
+                                            <div key={item} className="col mt-4">
+                                                <div className="w-[90%] mx-auto bs-blue rounded-xl pointer">
+                                                    <div className="w-100 flex items-center justify-between">
+                                                        <div className="bs-org w-fit h-fit rounded-br-xl rounded-tl-xl">
+                                                            <div className="mt-[-30px] ms-[-10px] pe-3 py-1">
+                                                                <img className='w-[clamp(180px,180px,180px)] object-cover' src="../../public/IMG/car-slider.png" alt="" />
                                                             </div>
                                                         </div>
-                                                        <div className="flex justify-between items-end px-3 py-2">
-                                                            <div className="">
-                                                                <p className='tx-white text-[20px] font-bold font-Outfit tracking-widest'>Preminum SUV</p>
-                                                                <div className="tx-white text-[14px] font-Outfit tracking-widest ">Innova or Innova Crysta</div>
-                                                            </div>
-                                                            <div className="flex items-center py-2 gap-1">
-                                                                <p className='tx-white text-[16px] font-bold '>6</p>
-                                                                <i class="fa-solid fa-user tx-white"></i>
-                                                            </div>
+                                                        <div className="px-3">
+                                                            <p className='tx-white text-[23px] font-bold font-Outfit tracking-wider'> ₹9/Km</p>
+                                                        </div>
+                                                    </div>
+                                                    <div className="flex justify-between items-end px-3 py-2">
+                                                        <div className="">
+                                                            <p className='tx-white text-[18px] font-bold font-Outfit tracking-wide'>Preminum SUV</p>
+                                                            <div className="tx-white text-[14px] font-Outfit tracking-wide ">Innova or Innova Crysta</div>
+                                                        </div>
+                                                        <div className="flex items-center pt-2 gap-1">
+                                                            <p className='tx-white text-[16px] font-bold '>6</p>
+                                                            <i class="fa-solid fa-user tx-white"></i>
                                                         </div>
                                                     </div>
                                                 </div>
-                                            ))}
-                                        </Slider>
-                                    </div>
+                                            </div>
+                                        ))}
+                                    </Slider>
                                 </div>
 
-                                <div className="bs-blue rounded-md px-5 py-1 absolute top-100 start-50 translate-middle pointer">
+                                <div onClick={(e) => handleBookingDataSubmit(e)} className="bs-blue rounded-md px-5 py-1 absolute top-100 start-50 translate-middle pointer">
                                     <p className='text-[18px] font-medium font-Outfit tx-white'>LET’S YBGO!</p>
                                 </div>
                             </>
                         }
-
-
-
-
-
                         {activeTrip === "Hourly" &&
                             <>
                                 <div className="flex gap-4">
-                                    <div className="w-50 flex rounded-lg gap-[25px]">
+                                    <div className="w-50 flex flex-col rounded-lg gap-[25px]">
                                         <div className="col flex gap-2 border-1 border-org rounded-md bs-white relative">
                                             <Autocomplete
                                                 label=""
                                                 // defaultItems={dummyCitySelector}
                                                 defaultItems={cityList}
                                                 placeholder="From which city?"
-                                                className="col w-100 !font-bold py-2 !text-[14px] autocompleate-custome"
+                                                className="col w-[clamp(100%,100%,100%)] !font-bold py-2 !text-[14px] autocompleate-custome"
                                             >
                                                 {(city) => {
                                                     const cityItem = `${city.name} - ${city.code} ${city.state_name}`;
@@ -293,15 +346,23 @@ export default function Heroslider() {
                                         <div className="col flex gap-2 border-1 border-org rounded-md bs-white relative">
                                             <Autocomplete
                                                 label=""
-                                                defaultItems={dummyPackageSelector}
-                                                placeholder="Select your package?"
-                                                className="col w-100 !font-bold py-2 !text-[14px] autocompleate-custome"
+                                                // defaultItems={dummyCitySelector}
+                                                defaultItems={hourlyPackageList}
+                                                placeholder="Hourly Packages"
+                                                className="col w-[clamp(100%,100%,100%)] !font-bold py-2 !text-[14px] autocompleate-custome"
                                             >
-                                                {(animal) => <AutocompleteItem key={animal.value}>{animal.label}</AutocompleteItem>}
+                                                {(hourlyPackage) => {
+                                                    const hourlyPackageItem = `${hourlyPackage.packageName}`;
+                                                    return (
+                                                        <AutocompleteItem key={hourlyPackage.id} value={hourlyPackage}>
+                                                            {hourlyPackageItem}
+                                                        </AutocompleteItem>
+                                                    );
+                                                }}
                                             </Autocomplete>
                                         </div>
                                     </div>
-                                    <div className="w-50 flex border-b-2 py-3">
+                                    <div className="w-50 flex border-y-1 py-2.5">
                                         <div class="col w-50 relative rounded-lg flex flex-col justify-center px-3">
                                             <p class="text-[15px] font-semibold bs-white px-1 font-Outfit opacity-70">Pickup Date </p>
                                             <DatePicker
@@ -310,46 +371,44 @@ export default function Heroslider() {
                                                 description={""}
                                             />
                                         </div>
-                                        <div className="w-[clamp(2px,2px,2px)] bg-[#e5e7eb] rounded-full"></div>
-                                        <div className="col w-50 relative rounded-lg flex gap-1 flex-col justify-center px-3 py-1">
+                                        <div className="w-[clamp(1px,1px,1px)] bg-[#e5e7eb] rounded-full"></div>
+                                        <div className="col w-50 relative rounded-lg flex flex-col gap-2 justify-center px-3">
                                             <p class="text-[15px] font-semibold bs-white px-1 font-Outfit opacity-70">Pickup Time </p>
-                                            <div className="col">
-                                                <input className='w-[clamp(100%,100%,100%)] px-2 py-0' type="time" />
+                                            <div className="h-fit">
+                                                <input className='w-[clamp(100%,100%,100%)] h-[clamp(35px,35px,35px)] px-2 py-0 ' type="time" />
                                             </div>
                                         </div>
                                     </div>
                                 </div>
-                                <div className="">
-                                    <div className={`w-100 h-[clamp(150px,150px,150px)] mx-auto`}>
-                                        <Slider {...carslider} className='w-100'>
-                                            {dummyCarSelector.map((item) => (
-                                                <div key={item} className="col mt-4">
-                                                    <div className="w-[90%] mx-auto bs-blue rounded-xl pointer">
-                                                        <div className="w-100 flex items-center justify-between">
-                                                            <div className="bs-org w-fit h-fit rounded-br-xl rounded-tl-xl">
-                                                                <div className="mt-[-30px] ms-[-10px] pe-3 py-1">
-                                                                    <img className='w-[clamp(180px,180px,180px)] object-cover' src="../../public/IMG/car-slider.png" alt="" />
-                                                                </div>
-                                                            </div>
-                                                            <div className="px-3">
-                                                                <p className='tx-white text-[23px] font-bold font-Outfit tracking-wider'> ₹9/Km</p>
+                                <div className={`w-100 h-[clamp(150px,150px,150px)] mx-auto`}>
+                                    <Slider {...carslider} className='w-100'>
+                                        {dummyCarSelector.map((item) => (
+                                            <div key={item} className="col mt-4">
+                                                <div className="w-[90%] mx-auto bs-blue rounded-xl pointer">
+                                                    <div className="w-100 flex items-center justify-between">
+                                                        <div className="bs-org w-fit h-fit rounded-br-xl rounded-tl-xl">
+                                                            <div className="mt-[-30px] ms-[-10px] pe-3 py-1">
+                                                                <img className='w-[clamp(180px,180px,180px)] object-cover' src="../../public/IMG/car-slider.png" alt="" />
                                                             </div>
                                                         </div>
-                                                        <div className="flex justify-between items-end px-3 py-2">
-                                                            <div className="">
-                                                                <p className='tx-white text-[20px] font-bold font-Outfit tracking-widest'>Preminum SUV</p>
-                                                                <div className="tx-white text-[14px] font-Outfit tracking-widest ">Innova or Innova Crysta</div>
-                                                            </div>
-                                                            <div className="flex items-center py-2 gap-1">
-                                                                <p className='tx-white text-[16px] font-bold '>6</p>
-                                                                <i class="fa-solid fa-user tx-white"></i>
-                                                            </div>
+                                                        <div className="px-3">
+                                                            <p className='tx-white text-[23px] font-bold font-Outfit tracking-wider'> ₹9/Km</p>
+                                                        </div>
+                                                    </div>
+                                                    <div className="flex justify-between items-end px-3 py-2">
+                                                        <div className="">
+                                                            <p className='tx-white text-[18px] font-bold font-Outfit tracking-wide'>Preminum SUV</p>
+                                                            <div className="tx-white text-[14px] font-Outfit tracking-wide ">Innova or Innova Crysta</div>
+                                                        </div>
+                                                        <div className="flex items-center pt-2 gap-1">
+                                                            <p className='tx-white text-[16px] font-bold '>6</p>
+                                                            <i class="fa-solid fa-user tx-white"></i>
                                                         </div>
                                                     </div>
                                                 </div>
-                                            ))}
-                                        </Slider>
-                                    </div>
+                                            </div>
+                                        ))}
+                                    </Slider>
                                 </div>
                                 <div className="bs-blue rounded-md px-5 py-1 absolute top-100 start-50 translate-middle pointer">
                                     <p className='text-[18px] font-medium font-Outfit tx-white'>LET’S YBGO!</p>
@@ -359,39 +418,95 @@ export default function Heroslider() {
                         {activeTrip === "Airport" &&
                             <>
                                 <div className="w-100 flex gap-5 justify-center select-none">
-                                    <div className="flex gap-2 items-center pointer" onClick={() => setActiveAirportLocal("local")}>
-                                        <input className='accent-[#2565df] !border-0 scale-125 !outline-1' type="radio" id="local" checked={activeAirportLocal === "local" ? true : false} name="airportLocal" value="local" />
-                                        <label className='text-[15px] opacity-75 font-bold font-Outfit' for="local">Local</label>
-                                    </div>
                                     <div className="flex gap-2 items-center pointer" onClick={() => setActiveAirportLocal("airport")}>
                                         <input className='accent-[#2565df] !border-0 scale-125 !outline-1' type="radio" id="airport" checked={activeAirportLocal === "airport" ? true : false} name="airportLocal" value="airport" />
                                         <label className='text-[15px] opacity-75 font-bold font-Outfit' for="airport">Airport</label>
                                     </div>
+                                    <div className="flex gap-2 items-center pointer" onClick={() => setActiveAirportLocal("local")}>
+                                        <input className='accent-[#2565df] !border-0 scale-125 !outline-1' type="radio" id="local" checked={activeAirportLocal === "local" ? true : false} name="airportLocal" value="local" />
+                                        <label className='text-[15px] opacity-75 font-bold font-Outfit' for="local">Local</label>
+                                    </div>
                                 </div>
                                 <div className="flex">
                                     {activeAirportLocal === "local" &&
-                                        <div className="w-50 flex flex-col gap-4">
-                                            <div className="border-b-2 px-2">
-                                                <input className='text-[15px] py-2 font-medium font-Outfit' placeholder='Enter airport' type="text" />
+                                        <div className="w-50 flex flex-col gap-4 px-3">
+                                            <div className="col flex gap-2 border-1 border-org rounded-md bs-white relative">
+                                                <Autocomplete
+                                                    label=""
+                                                    // defaultItems={dummyCitySelector}
+                                                    defaultItems={cityList}
+                                                    placeholder="Pick Up City"
+                                                    className="col w-[clamp(100%,100%,100%)] !font-bold py-2 !text-[14px] autocompleate-custome"
+                                                >
+                                                    {(city) => {
+                                                        const cityItem = `${city.name} - ${city.code} ${city.state_name}`;
+                                                        return (
+                                                            <AutocompleteItem key={city.id} value={city}>
+                                                                {cityItem}
+                                                            </AutocompleteItem>
+                                                        );
+                                                    }}
+                                                </Autocomplete>
                                             </div>
-                                            <div className="border-b-2 px-2">
-                                                <input className='text-[15px] py-2 font-medium font-Outfit' placeholder='Enter destination' type="text" />
+                                            <div className="col flex gap-2 border-1 border-org rounded-md bs-white relative">
+                                                <Autocomplete
+                                                    label=""
+                                                    defaultItems={airportList}
+                                                    placeholder="Select Package"
+                                                    className="col w-[clamp(100%,100%,100%)] !font-bold py-2 !text-[14px] autocompleate-custome"
+                                                >
+                                                    {(airport) => {
+                                                        const airportItem = `${airport.name} - ${airport.code}, ${airport.cityName}`;
+                                                        return (
+                                                            <AutocompleteItem key={airport.id} value={airport}>
+                                                                {airportItem}
+                                                            </AutocompleteItem>
+                                                        );
+                                                    }}
+                                                </Autocomplete>
                                             </div>
                                         </div>
                                     }
                                     {activeAirportLocal === "airport" &&
-                                        <div className="w-50 flex flex-col gap-4">
-                                            <div className="border-b-2 px-2">
-                                                <input className='text-[15px] py-2 font-medium font-Outfit' placeholder='Enter destination' type="text" />
+                                        <div className="w-50 flex flex-col gap-4 px-3">
+                                            <div className="col flex gap-2 border-1 border-org rounded-md bs-white relative">
+                                                <Autocomplete
+                                                    label=""
+                                                    defaultItems={airportList}
+                                                    placeholder="Enter airport"
+                                                    className="col w-[clamp(100%,100%,100%)] !font-bold py-2 !text-[14px] autocompleate-custome"
+                                                >
+                                                    {(airport) => {
+                                                        const airportItem = `${airport.name} - ${airport.code}, ${airport.cityName}`;
+                                                        return (
+                                                            <AutocompleteItem key={airport.id} value={airport}>
+                                                                {airportItem}
+                                                            </AutocompleteItem>
+                                                        );
+                                                    }}
+                                                </Autocomplete>
                                             </div>
-                                            <div className="border-b-2 px-2">
-                                                <input className='text-[15px] py-2 font-medium font-Outfit' placeholder='Enter airport' type="text" />
+                                            <div className="col flex gap-2 border-1 border-org rounded-md bs-white relative">
+                                                <Autocomplete
+                                                    label=""
+                                                    defaultItems={airportList}
+                                                    placeholder="Enter destination"
+                                                    className="col w-[clamp(100%,100%,100%)] !font-bold py-2 !text-[14px] autocompleate-custome"
+                                                >
+                                                    {(airport) => {
+                                                        const airportItem = `${airport.name} - ${airport.code}, ${airport.cityName}`;
+                                                        return (
+                                                            <AutocompleteItem key={airport.id} value={airport}>
+                                                                {airportItem}
+                                                            </AutocompleteItem>
+                                                        );
+                                                    }}
+                                                </Autocomplete>
                                             </div>
                                         </div>
                                     }
-                                    <div className="w-[clamp(2px,2px,2px)] bg-[#e5e7eb] rounded-full"></div>
 
-                                    <div className="flex w-50 border-b-2 pb-2.5">
+                                    <div className="flex w-50 border-y-1 py-2.5">
                                         <div class="col w-50 relative rounded-lg flex flex-col justify-center px-3">
                                             <p class="text-[15px] font-semibold bs-white px-1 font-Outfit opacity-70">Pickup Date </p>
                                             <DatePicker
@@ -400,7 +515,7 @@ export default function Heroslider() {
                                                 description={""}
                                             />
                                         </div>
-                                        <div className="w-[clamp(2px,2px,2px)] bg-[#e5e7eb] rounded-full"></div>
+                                        <div className="w-[clamp(1px,1px,1px)] bg-[#e5e7eb] rounded-full"></div>
                                         <div className="col w-50 relative rounded-lg flex flex-col gap-2 justify-center px-3">
                                             <p class="text-[15px] font-semibold bs-white px-1 font-Outfit opacity-70">Pickup Time </p>
                                             <div className="h-fit">
@@ -409,37 +524,35 @@ export default function Heroslider() {
                                         </div>
                                     </div>
                                 </div>
-                                <div className="">
-                                    <div className={`w-100 h-[clamp(150px,150px,150px)] mx-auto`}>
-                                        <Slider {...carslider} className='w-100'>
-                                            {dummyCarSelector.map((item) => (
-                                                <div key={item} className="col mt-4">
-                                                    <div className="w-[90%] mx-auto bs-blue rounded-xl pointer">
-                                                        <div className="w-100 flex items-center justify-between">
-                                                            <div className="bs-org w-fit h-fit rounded-br-xl rounded-tl-xl">
-                                                                <div className="mt-[-30px] ms-[-10px] pe-3 py-1">
-                                                                    <img className='w-[clamp(180px,180px,180px)] object-cover' src="../../public/IMG/car-slider.png" alt="" />
-                                                                </div>
-                                                            </div>
-                                                            <div className="px-3">
-                                                                <p className='tx-white text-[23px] font-bold font-Outfit tracking-wider'> ₹9/Km</p>
+                                <div className={`w-100 h-[clamp(150px,150px,150px)] mx-auto`}>
+                                    <Slider {...carslider} className='w-100'>
+                                        {dummyCarSelector.map((item) => (
+                                            <div key={item} className="col mt-4">
+                                                <div className="w-[90%] mx-auto bs-blue rounded-xl pointer">
+                                                    <div className="w-100 flex items-center justify-between">
+                                                        <div className="bs-org w-fit h-fit rounded-br-xl rounded-tl-xl">
+                                                            <div className="mt-[-30px] ms-[-10px] pe-3 py-1">
+                                                                <img className='w-[clamp(180px,180px,180px)] object-cover' src="../../public/IMG/car-slider.png" alt="" />
                                                             </div>
                                                         </div>
-                                                        <div className="flex justify-between items-end px-3 py-2">
-                                                            <div className="">
-                                                                <p className='tx-white text-[20px] font-bold font-Outfit tracking-widest'>Preminum SUV</p>
-                                                                <div className="tx-white text-[14px] font-Outfit tracking-widest ">Innova or Innova Crysta</div>
-                                                            </div>
-                                                            <div className="flex items-center py-2 gap-1">
-                                                                <p className='tx-white text-[16px] font-bold '>6</p>
-                                                                <i class="fa-solid fa-user tx-white"></i>
-                                                            </div>
+                                                        <div className="px-3">
+                                                            <p className='tx-white text-[23px] font-bold font-Outfit tracking-wider'> ₹9/Km</p>
+                                                        </div>
+                                                    </div>
+                                                    <div className="flex justify-between items-end px-3 py-2">
+                                                        <div className="">
+                                                            <p className='tx-white text-[18px] font-bold font-Outfit tracking-wide'>Preminum SUV</p>
+                                                            <div className="tx-white text-[14px] font-Outfit tracking-wide ">Innova or Innova Crysta</div>
+                                                        </div>
+                                                        <div className="flex items-center pt-2 gap-1">
+                                                            <p className='tx-white text-[16px] font-bold '>6</p>
+                                                            <i class="fa-solid fa-user tx-white"></i>
                                                         </div>
                                                     </div>
                                                 </div>
-                                            ))}
-                                        </Slider>
-                                    </div>
+                                            </div>
+                                        ))}
+                                    </Slider>
                                 </div>
                                 <div className="bs-blue rounded-md px-5 py-1 absolute top-100 start-50 translate-middle pointer">
                                     <p className='text-[18px] font-medium font-Outfit tx-white'>LET’S YBGO!</p>

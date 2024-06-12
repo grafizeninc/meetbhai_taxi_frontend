@@ -19,19 +19,23 @@ import storeReducer from "./reducers/storeReducer";
 import subCategoryReducer from "./reducers/subCategoryReducer";
 import taxReducer from "./reducers/taxReducer";
 import unitReducer from "./reducers/unitReducer";
-import userRolePermissionReducer from "./reducers/userRolePermissionReducer";
-// import airPortReducer from "./reducers/airPortReducer";
+import userRolePermissionReducer from "./reducers/userRolePermissionReducer"; 
 import cityReducer from "./reducers/cityReducer";
-import destinationReducer from "./reducers/destinationReducer";
-import localHourlyPackageReducer from "./reducers/localHourlyPackageReducer";
+import destinationReducer from "./reducers/destinationReducer"; 
 import stateReducer from "./reducers/stateReducer";
 import tripReducer from "./reducers/tripReducer";
 import airportReducer from "./reducers/airportReducer";
+import bookingReducer from "./reducers/bookingReducer";
+import hourlyRentReducer from "./reducers/hourlyRentReducer";
+import localPackageReducer from "./reducers/localPackageReducer";
 
 const rootReducer = combineReducers({
   airPortState: airportReducer,
   authState: authReducer,
   rolesState: rolesReducer,
+  bookingState: bookingReducer,
+  hourlyRentState: hourlyRentReducer,
+  localPackageState: localPackageReducer,
   cityState: cityReducer,
   subCategoryState: subCategoryReducer,
   itemState: itemReducer,
@@ -44,7 +48,6 @@ const rootReducer = combineReducers({
   unitState: unitReducer,
   taxState: taxReducer,
   tripState:tripReducer,
-  localHourlyPackageState: localHourlyPackageReducer,
   reviweState: reviewReducer,
   storeState: storeReducer,
   moduleState: moduleReducer,

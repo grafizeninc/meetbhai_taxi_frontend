@@ -1,6 +1,6 @@
 import { toast } from "react-toastify";
 import { ApiDelete, ApiGet, ApiPost, ApiPut } from "../../helper/axios";
-import { ADD_DESTINATION, UPDATE_DESTINATION, DELETE_DESTINATION, GET_ALL_DESTINATION, GET_ALL_DESTINATION_NAME_LIST, GET_ONE_DESTINATION, RESET_GLOBAL_STATE, REMOVE_ITEM_DESTINATION } from '../type';
+import { ADD_DESTINATION, UPDATE_DESTINATION, DELETE_DESTINATION, GET_ALL_DESTINATION } from '../type';
 
 export const getAllDestinationAction = () => {
   return (dispatch) => {

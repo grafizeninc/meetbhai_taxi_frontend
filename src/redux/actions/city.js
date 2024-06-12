@@ -11,7 +11,6 @@ export const getAllCityAction = () => {
             type: GET_ALL_CITY,
             payload: res.data.data,
           });
-            console.log("🚀 ~ .then ~ res.data.data:", res.data.data)
         }
       })
       .catch((error) => {
