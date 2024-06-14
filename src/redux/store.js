@@ -19,9 +19,9 @@ import storeReducer from "./reducers/storeReducer";
 import subCategoryReducer from "./reducers/subCategoryReducer";
 import taxReducer from "./reducers/taxReducer";
 import unitReducer from "./reducers/unitReducer";
-import userRolePermissionReducer from "./reducers/userRolePermissionReducer"; 
+import userRolePermissionReducer from "./reducers/userRolePermissionReducer";
 import cityReducer from "./reducers/cityReducer";
-import destinationReducer from "./reducers/destinationReducer"; 
+import destinationReducer from "./reducers/destinationReducer";
 import stateReducer from "./reducers/stateReducer";
 import tripReducer from "./reducers/tripReducer";
 import airportReducer from "./reducers/airportReducer";
@@ -47,17 +47,17 @@ const rootReducer = combineReducers({
   stateState: stateReducer,
   unitState: unitReducer,
   taxState: taxReducer,
-  tripState:tripReducer,
+  tripState: tripReducer,
   reviweState: reviewReducer,
   storeState: storeReducer,
   moduleState: moduleReducer,
   userRolePermission: userRolePermissionReducer,
   imageUploadState: imageUploadReducer,
   destinationState: destinationReducer,
-  heroBannerState:heroBannerReducer,
-  offerBannerState:offerBannerReducer,
-  liveTextState:liveTextReducer,
-  referalCodeState:referalCodeReducer
+  heroBannerState: heroBannerReducer,
+  offerBannerState: offerBannerReducer,
+  liveTextState: liveTextReducer,
+  referalCodeState: referalCodeReducer
 
 });
 

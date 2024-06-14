@@ -1,6 +1,6 @@
 import { toast } from "react-toastify";
 import { ApiDelete, ApiGet, ApiPost, ApiPut } from "../../helper/axios";
-import { ADD_DESTINATION, UPDATE_DESTINATION, DELETE_DESTINATION, GET_ALL_DESTINATION } from '../type';
+import { ADD_DESTINATION, UPDATE_DESTINATION, DELETE_DESTINATION, GET_ALL_DESTINATION,GET_DESTINATION_BY_AIRPORT } from '../type';
 
 export const getAllDestinationAction = () => {
   return (dispatch) => {
@@ -16,6 +16,26 @@ export const getAllDestinationAction = () => {
       .catch((error) => {
         dispatch({
           type: GET_ALL_DESTINATION,
+          payload: error,
+        });
+      });
+  };
+};
+
+export const getDestinationByAirportAction = (airportId) => {
+  return (dispatch) => {
+    return ApiGet(`/api/v1/destination/${airportId}`) 
+    .then((res) => {
+      if (res?.status === "success") {
+        dispatch({ 
+            type: GET_DESTINATION_BY_AIRPORT,
+            payload: res.destination,
+          });
+        }
+      })
+      .catch((error) => {
+        dispatch({
+          type: GET_DESTINATION_BY_AIRPORT,
           payload: error,
         });
       });

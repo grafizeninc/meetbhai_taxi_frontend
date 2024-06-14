@@ -1,7 +1,8 @@
-import { ADD_DESTINATION, UPDATE_DESTINATION, DELETE_DESTINATION, GET_ALL_DESTINATION, RESET_GLOBAL_STATE } from '../type';
+import { ADD_DESTINATION, UPDATE_DESTINATION, DELETE_DESTINATION, GET_ALL_DESTINATION, GET_DESTINATION_BY_AIRPORT, RESET_GLOBAL_STATE } from '../type';
 
 const initialState = {
     getAllDestination: [],
+    getDestinationByAirport: [],
     addDestination: [],
     updateDestination: [],
     deleteDestination: [],
@@ -14,6 +15,11 @@ const destinationReducer = (state = initialState, action) => {
                 ...state,
                 getAllDestination: action.payload
 
+            };
+        case GET_DESTINATION_BY_AIRPORT:
+            return {
+                ...state,
+                getDestinationByAirport: action.payload
             };
         case ADD_DESTINATION:
             return {

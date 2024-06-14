@@ -1,8 +1,8 @@
 import { toast } from "react-toastify";
 import { ApiDelete, ApiGet, ApiPost, ApiPut } from "../../helper/axios";
-import { ADD_BOOKING, UPDATE_BOOKING, DELETE_BOOKING, GET_ALL_BOOKING } from "../type";
+import { ADD_AIRPORT_BOOKING, UPDATE_BOOKING, DELETE_BOOKING, GET_ALL_BOOKING } from "../type";
 
-export const getAllBookingAction = () => {
+export const getAllAirportBookingAction = () => {
     return (dispatch) => {
         return ApiGet(`/api/v1/bookings`)
             .then((res) => {
@@ -23,28 +23,29 @@ export const getAllBookingAction = () => {
     };
 };
 
-export const addBookingAction = (addBookingData) => {
+export const addAirportBookingAction = (addAirportBookingData) => {
     return (dispatch) => {
-        return ApiPost(`/api/v1/booking`, addBookingData)
+        return ApiPost(`/api/v1/booking`, addAirportBookingData)
             .then((res) => {
                 if (res?.status === 200) {
                     dispatch({
-                        type: ADD_BOOKING,
+                        type: ADD_AIRPORT_BOOKING,
                         payload: res.data,
                     });
                     toast.success(res?.data?.message, { autoClose: 1000 })
-                    dispatch(getAllBookingAction());
+                    dispatch(getAllAirportBookingAction());
                 }
             })
             .catch((error) => {
                 dispatch({
-                    type: ADD_BOOKING,
+                    type: ADD_AIRPORT_BOOKING,
                     payload: error,
                 });
                 toast.error(error?.response?.data?.message, { autoClose: 1000 })
             });
     };
 };
+
 
 export const updateBookingAction = (updateCityData) => {
     return (dispatch) => {

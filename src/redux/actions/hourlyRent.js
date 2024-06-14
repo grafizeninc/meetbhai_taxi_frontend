@@ -10,8 +10,7 @@ export const getAllHourlyRentAction = () => {
                     dispatch({
                         type: GET_ALL_HOURLYRENT,
                         payload: res.data.data,
-                    }); 
-                        console.log("🚀 ~ .then ~ res.data.data:", res.data.data)
+                    });  
                 }
             })
             .catch((error) => {

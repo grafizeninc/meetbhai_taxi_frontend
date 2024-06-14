@@ -1,16 +1,16 @@
 import { toast } from "react-toastify";
 import { ApiDelete, ApiGet, ApiPost, ApiPut } from "../../helper/axios";
-import { GET_ALL_LOCAL_PACKAGES, } from "../type";
+import { GET_ALL_LOCAL_PACKAGES } from "../type";
 
 export const getAllLocalPackagesAction = () => {
     return (dispatch) => {
-        return ApiGet(`/api/v1/localPackagesPackages`)
+        return ApiGet(`/api/v1/localHourlyPackages`)
             .then((res) => {
-                if (res?.status === 200) {
+                if (res?.status === "success") {
                     dispatch({
                         type: GET_ALL_LOCAL_PACKAGES,
-                        payload: res.data,
-                    });
+                        payload: res.data.data,
+                    });  
                 }
             })
             .catch((error) => {
@@ -18,6 +18,8 @@ export const getAllLocalPackagesAction = () => {
                     type: GET_ALL_LOCAL_PACKAGES,
                     payload: error,
                 });
+
             });
     };
-}; 
+};
+ 
