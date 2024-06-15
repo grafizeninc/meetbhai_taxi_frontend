@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { getAllCityAction } from "../../../redux/actions/city";
 import Slider from 'react-slick';
-import { addAirportBookingAction } from '../../../redux/actions/booking';
+import { addAirportBookingAction, getVehicleByAirportAndDestinationAction } from '../../../redux/actions/booking';
 import { getAllAirPortAction } from '../../../redux/actions/airport';
 import { getAllDestinationAction, getDestinationByAirportAction } from '../../../redux/actions/destination';
 import { getAllHourlyRentAction } from '../../../redux/actions/hourlyRent';
@@ -13,6 +13,7 @@ export default function Heroslider() {
     const dispatch = useDispatch();
     const [selectedAirport, setSelectedAirport] = useState(null)
     const [selectedDestination, setSelectedDestination] = useState(null)
+    const [selectedDestinationFromAll, setSelectedDestinationFromAll] = useState(null)
 
     const [activeTrip, setActiveTrip] = useState("OutStation");
     const [activeRoundTrip, setActiveRoundTrip] = useState("oneway");
@@ -21,11 +22,10 @@ export default function Heroslider() {
     const getAllAirport = useSelector((state) => state?.airPortState?.getAllAirPort || []);
     const getAllDestination = useSelector((state) => state?.destinationState?.getAllDestination || []);
     const getDestinationByAirport = useSelector((state) => state?.destinationState?.getDestinationByAirport || []);
+    const getVehicleByAirportAndDestination = useSelector((state) => state?.bookingState?.getVehicleByAirportAndDestination || []);
+    console.log("🚀 ~ Heroslider ~ getVehicleByAirportAndDestination:", getVehicleByAirportAndDestination)
     const getAllhourlyPackages = useSelector((state) => state?.hourlyRentState?.getAllHourlyRent || []);
     const getAllLocalPackages = useSelector((state) => state?.localPackageState?.getAllLocalPackages || []);
-
-
-
 
     const [InitialData, setInitialData] = useState({
         pickupLocation: "",
@@ -83,10 +83,16 @@ export default function Heroslider() {
     })) : [];
     const destinationList = Array.isArray(getAllDestination) ? getAllDestination.map((destination) => ({
         id: destination._id,
+        name: destination.name,
     })) : [];
     const destinationByAirportList = Array.isArray(getDestinationByAirport) ? getDestinationByAirport.map((destinationByAirport) => ({
         id: destinationByAirport._id,
         name: destinationByAirport.name,
+    })) : [];
+    const VehicleByAirportAndDestinationList = Array.isArray(getVehicleByAirportAndDestination) ? getVehicleByAirportAndDestination.map((VehicleByAirportAndDestination) => ({
+        categoryId: VehicleByAirportAndDestination.categoryId,
+        categoryName: VehicleByAirportAndDestination.categoryName,
+        name: VehicleByAirportAndDestination.name,
     })) : [];
     const hourlyPackageList = Array.isArray(getAllhourlyPackages) ? getAllhourlyPackages.map((hourlyPackage) => ({
         id: hourlyPackage._id,
@@ -179,6 +185,9 @@ export default function Heroslider() {
         ]
     });
 
+    const handleAirportVehicleListing = () => {
+        dispatch(getVehicleByAirportAndDestinationAction(selectedAirport, selectedDestinationFromAll));
+    }
 
     useEffect(() => {
         dispatch(getAllCityAction());
@@ -444,7 +453,6 @@ export default function Heroslider() {
                                         <label className='text-[15px] opacity-75 font-bold font-Outfit' for="local">Local</label>
                                     </div>
                                 </div>
-
                                 {activeAirportLocal === "local" &&
                                     <>
                                         <div className="flex">
@@ -554,7 +562,7 @@ export default function Heroslider() {
                                                         {(airport) => {
                                                             const airportItem = `${airport.name} - ${airport.code}, ${airport.cityName}`;
                                                             return (
-                                                                <AutocompleteItem key={airport.id} value={airport}  >
+                                                                <AutocompleteItem key={airport.id} value={airport} onClick={handleAirportVehicleListing}>
                                                                     {airportItem}
                                                                 </AutocompleteItem>
                                                             );
@@ -564,21 +572,24 @@ export default function Heroslider() {
                                                 <div className="col flex gap-2 border-1 border-org rounded-md bs-white relative">
                                                     <Autocomplete
                                                         label=""
-                                                        defaultItems={destinationByAirportList}
+                                                        isDisabled={selectedAirport === null ? true : false}
+                                                        defaultItems={destinationList}
                                                         placeholder="Enter destination"
-                                                        selectedKey={selectedDestination}
-                                                        onSelectionChange={setSelectedDestination}
+                                                        selectedKey={selectedDestinationFromAll}
+                                                        onSelectionChange={setSelectedDestinationFromAll}
+                                                        // selectedKey={selectedDestination}
+                                                        // onSelectionChange={setSelectedDestination}
                                                         className="col w-[clamp(100%,100%,100%)] !font-bold py-2 !text-[14px] autocompleate-custome"
                                                     >
                                                         {(destinationByAirport) => {
                                                             const destinationItem = `${destinationByAirport.name} `;
                                                             return (
-                                                                <AutocompleteItem key={destinationByAirport.id} value={destinationByAirport} >
+                                                                <AutocompleteItem key={destinationByAirport.id} value={destinationByAirport} onClick={handleAirportVehicleListing}>
                                                                     {destinationItem}
                                                                 </AutocompleteItem>
                                                             );
                                                         }}
-                                                    </Autocomplete> 
+                                                    </Autocomplete>
                                                 </div>
                                             </div>
                                             <div className="flex w-50 border-y-1 py-2.5">
@@ -600,8 +611,8 @@ export default function Heroslider() {
                                             </div>
                                         </div>
                                         <div className={`w-100 h-[clamp(150px,150px,150px)] mx-auto`}>
-                                            <Slider {...carslider} className='w-100'>
-                                                {dummyCarSelector.map((item) => (
+                                            {VehicleByAirportAndDestinationList.length > 5 && VehicleByAirportAndDestinationList.map((item) => (
+                                                <Slider {...carslider} className='w-100' >
                                                     <div key={item} className="col mt-4">
                                                         <div className="w-[90%] mx-auto bs-blue rounded-xl pointer">
                                                             <div className="w-100 flex items-center justify-between">
@@ -616,7 +627,7 @@ export default function Heroslider() {
                                                             </div>
                                                             <div className="flex justify-between items-end px-3 py-2">
                                                                 <div className="">
-                                                                    <p className='tx-white text-[18px] font-bold font-Outfit tracking-wide'>Preminum SUV</p>
+                                                                    <p className='tx-white text-[18px] font-bold font-Outfit tracking-wide'>{item.categoryName}</p>
                                                                     <div className="tx-white text-[14px] font-Outfit tracking-wide ">Innova or Innova Crysta</div>
                                                                 </div>
                                                                 <div className="flex items-center pt-2 gap-1">
@@ -626,16 +637,45 @@ export default function Heroslider() {
                                                             </div>
                                                         </div>
                                                     </div>
-                                                ))}
-                                            </Slider>
+                                                </Slider>
+                                            ))}
+                                            {VehicleByAirportAndDestinationList.length < 5 && VehicleByAirportAndDestinationList.map((item) => (
+                                                <div className="flex w-100 overflow-x-scroll">
+                                                    <div className="w-100 flex">
+                                                        <div key={item} className="w-fit mt-4">
+                                                            <div className="w-[90%] mx-auto bs-blue rounded-xl pointer">
+                                                                <div className="w-100 flex items-center justify-between">
+                                                                    <div className="bs-org w-fit h-fit rounded-br-xl rounded-tl-xl">
+                                                                        <div className="mt-[-30px] ms-[-10px] pe-3 py-1">
+                                                                            <img className='w-[clamp(180px,180px,180px)] object-cover' src="../../public/IMG/car-slider.png" alt="" />
+                                                                        </div>
+                                                                    </div>
+                                                                    <div className="px-3">
+                                                                        <p className='tx-white text-[23px] font-bold font-Outfit tracking-wider'> ₹9/Km</p>
+                                                                    </div>
+                                                                </div>
+                                                                <div className="flex justify-between items-end px-3 py-2">
+                                                                    <div className="">
+                                                                        <p className='tx-white text-[18px] font-bold font-Outfit tracking-wide'>{item.categoryName}</p>
+                                                                        <div className="tx-white text-[14px] font-Outfit tracking-wide ">Innova or Innova Crysta</div>
+                                                                    </div>
+                                                                    <div className="flex items-center pt-2 gap-1">
+                                                                        <p className='tx-white text-[16px] font-bold '>6</p>
+                                                                        <i class="fa-solid fa-user tx-white"></i>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            ))}
+
                                         </div>
                                         <div className="bs-blue rounded-md px-5 py-1 absolute top-100 start-50 translate-middle pointer">
                                             <p className='text-[18px] font-medium font-Outfit tx-white'>LET’S YBGO!</p>
                                         </div>
                                     </>
                                 }
-
-
                             </>
                         }
                     </div >
@@ -644,8 +684,8 @@ export default function Heroslider() {
                             <img className='w-[clamp(800px,800px,800px)] object-contain' src="../../../../public/IMG/hero-car.png" alt="" />
                         </div>
                     </div> */}
-                </div >
-            </div >
+                </div>
+            </div>
         </>
     )
 } 

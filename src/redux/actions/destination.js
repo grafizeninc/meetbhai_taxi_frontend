@@ -4,12 +4,12 @@ import { ADD_DESTINATION, UPDATE_DESTINATION, DELETE_DESTINATION, GET_ALL_DESTIN
 
 export const getAllDestinationAction = () => {
   return (dispatch) => {
-    return ApiGet(`/api/v1/destination`)
+    return ApiGet(`/api/v1/all-destination-vehicle`)
       .then((res) => {
-        if (res?.status === 200) {
+        if (res?.status === "success") {
           dispatch({
             type: GET_ALL_DESTINATION,
-            payload: res.data,
+            payload: res.data.data,
           });
         }
       })

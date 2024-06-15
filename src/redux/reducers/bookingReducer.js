@@ -1,8 +1,8 @@
-import { ADD_AIRPORT_BOOKING, UPDATE_BOOKING, DELETE_BOOKING, GET_ALL_BOOKING, RESET_GLOBAL_STATE } from '../type';
-
+import { ADD_AIRPORT_BOOKING, UPDATE_BOOKING, DELETE_BOOKING, GET_ALL_BOOKING,GET_VEHICLE_BY_AIRPORT_AND_DESTINATION, RESET_GLOBAL_STATE } from '../type';
 
 const initialState = {
     getAllBooking: [],
+    getVehicleByAirportAndDestination: [],
     addAirportBooking: [],
     updateBooking: [],
     deleteBooking: [],
@@ -14,6 +14,12 @@ const bookingReducer = (state = initialState, action) => {
             return {
                 ...state,
                 getAllBooking: action.payload
+
+            };
+        case GET_VEHICLE_BY_AIRPORT_AND_DESTINATION:
+            return {
+                ...state,
+                getVehicleByAirportAndDestination: action.payload
 
             };
         case ADD_AIRPORT_BOOKING:
