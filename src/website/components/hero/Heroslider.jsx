@@ -1,4 +1,4 @@
-import { Autocomplete, AutocompleteItem, DatePicker } from '@nextui-org/react'
+import { Autocomplete, AutocompleteItem } from '@nextui-org/react'
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { getAllCityAction } from "../../../redux/actions/city";
@@ -8,12 +8,22 @@ import { getAllAirPortAction } from '../../../redux/actions/airport';
 import { getAllDestinationAction, getDestinationByAirportAction } from '../../../redux/actions/destination';
 import { getAllHourlyRentAction } from '../../../redux/actions/hourlyRent';
 import { getAllLocalPackagesAction } from '../../../redux/actions/localHourlyPackage';
+import DatePicker from 'react-datepicker';
+import moment from 'moment';
+import 'react-datepicker/dist/react-datepicker.css';
+import TimePicker from 'react-time-picker';
+import 'react-time-picker/dist/TimePicker.css';
+import 'react-clock/dist/Clock.css';
 
 export default function Heroslider() {
     const dispatch = useDispatch();
-    const [selectedAirport, setSelectedAirport] = useState(null)
-    const [selectedDestination, setSelectedDestination] = useState(null)
-    const [selectedDestinationFromAll, setSelectedDestinationFromAll] = useState(null)
+    const [selectedAirport, setSelectedAirport] = useState(null);
+    const [selectedAirportDate, setSelectedAirportDate] = useState(new Date());
+    const [selectedAirportTime, setSelectedAirportTime] = useState(new Date());
+    const [selectedDestination, setSelectedDestination] = useState(null);
+    const [selectedDestinationFromAll, setSelectedDestinationFromAll] = useState(null);
+
+
 
     const [activeTrip, setActiveTrip] = useState("OutStation");
     const [activeRoundTrip, setActiveRoundTrip] = useState("oneway");
@@ -23,20 +33,17 @@ export default function Heroslider() {
     const getAllDestination = useSelector((state) => state?.destinationState?.getAllDestination || []);
     const getDestinationByAirport = useSelector((state) => state?.destinationState?.getDestinationByAirport || []);
     const getVehicleByAirportAndDestination = useSelector((state) => state?.bookingState?.getVehicleByAirportAndDestination || []);
-    console.log("🚀 ~ Heroslider ~ getVehicleByAirportAndDestination:", getVehicleByAirportAndDestination)
     const getAllhourlyPackages = useSelector((state) => state?.hourlyRentState?.getAllHourlyRent || []);
     const getAllLocalPackages = useSelector((state) => state?.localPackageState?.getAllLocalPackages || []);
 
     const [InitialData, setInitialData] = useState({
-        pickupLocation: "",
-        coddropoffLocatione: "",
+        user: "", // User Id
+        airportId: "",
+        destinationVehicleId: "",
         pickupDate: "",
         pickupTime: "",
-        bookingType: "",
         categoryId: "",
-        km: "",
-        price: "",
-        subType: ""
+        km: ""
     });
 
     const handleDataChange = (e) => {
@@ -58,7 +65,11 @@ export default function Heroslider() {
         // if (validator.allValid()) {
 
         let body = {
-            coddropoffLocatione: InitialData.pickupLocation,
+            airportId: selectedAirport,
+            destinationVehicleId: selectedDestinationFromAll,
+            pickupDate: InitialData.pickupDate,
+            pickupTime: InitialData.pickupTime,
+            categoryId: InitialData.categoryId,
         }
         dispatch(addAirportBookingAction(body));
 
@@ -595,18 +606,28 @@ export default function Heroslider() {
                                             <div className="flex w-50 border-y-1 py-2.5">
                                                 <div class="col w-50 relative rounded-lg flex flex-col justify-center px-3">
                                                     <p class="text-[15px] font-semibold bs-white px-1 font-Outfit opacity-70">Pickup Date </p>
-                                                    <DatePicker
+                                                    {/* <DatePicker
                                                         label={""}
+                                                        // value={selectedAirportDate} onChange={setSelectedAirportDate}
+                                                        value={value} onChange={setValue}
                                                         className="max-w-[284px] hero-custome-date"
                                                         description={""}
+                                                    /> */}
+                                                    <DatePicker
+                                                        selected={selectedAirportDate}
+                                                        onChange={(date) => setSelectedAirportDate(date)}
+                                                        className="max-w-[284px] hero-custome-date"
+                                                        dateFormat="MM/dd/yyyy" // Optional: specify the format for the picker
+                                                        placeholderText="Select a date"
                                                     />
-                                                </div>
+                                                </div> {moment(selectedAirportDate).format('MM/DD/YYYY')}
                                                 <div className="w-[clamp(1px,1px,1px)] bg-[#e5e7eb] rounded-full"></div>
                                                 <div className="col w-50 relative rounded-lg flex flex-col gap-2 justify-center px-3">
                                                     <p class="text-[15px] font-semibold bs-white px-1 font-Outfit opacity-70">Pickup Time </p>
                                                     <div className="h-fit">
-                                                        <input className='w-[clamp(100%,100%,100%)] h-[clamp(35px,35px,35px)] px-2 py-0 ' type="time" />
+                                                        <input onClick={(e) => setSelectedAirportTime(e.target.value)}  className='w-[clamp(100%,100%,100%)] h-[clamp(35px,35px,35px)] px-2 py-0 ' type="time" />
                                                     </div>
+                                                     {selectedAirportTime} 
                                                 </div>
                                             </div>
                                         </div>
@@ -639,37 +660,38 @@ export default function Heroslider() {
                                                     </div>
                                                 </Slider>
                                             ))}
-                                            {VehicleByAirportAndDestinationList.length < 5 && VehicleByAirportAndDestinationList.map((item) => (
-                                                <div className="flex w-100 overflow-x-scroll">
-                                                    <div className="w-100 flex">
-                                                        <div key={item} className="w-fit mt-4">
-                                                            <div className="w-[90%] mx-auto bs-blue rounded-xl pointer">
-                                                                <div className="w-100 flex items-center justify-between">
-                                                                    <div className="bs-org w-fit h-fit rounded-br-xl rounded-tl-xl">
-                                                                        <div className="mt-[-30px] ms-[-10px] pe-3 py-1">
-                                                                            <img className='w-[clamp(180px,180px,180px)] object-cover' src="../../public/IMG/car-slider.png" alt="" />
+                                            <div className="flex w-100 overflow-x-scroll scroll-d-none">
+                                                <div className="w-100 flex gap-4">
+                                                    {VehicleByAirportAndDestinationList.length < 5 && VehicleByAirportAndDestinationList.map((item) => (
+                                                        <>
+                                                            <div key={item} className="w-fit mt-4">
+                                                                <div className="w-[clamp(250px,250px,250px)] mx-auto bs-blue rounded-xl pointer">
+                                                                    <div className="w-100 flex items-center justify-between">
+                                                                        <div className="bs-org w-fit h-fit rounded-br-xl rounded-tl-xl">
+                                                                            <div className="mt-[-30px] ms-[-10px] pe-3 py-1">
+                                                                                <img className='w-[clamp(180px,180px,180px)] object-cover' src="../../public/IMG/car-slider.png" alt="" />
+                                                                            </div>
+                                                                        </div>
+                                                                        <div className="px-3">
+                                                                            <p className='tx-white text-[23px] font-bold font-Outfit tracking-wider'> ₹9/Km</p>
                                                                         </div>
                                                                     </div>
-                                                                    <div className="px-3">
-                                                                        <p className='tx-white text-[23px] font-bold font-Outfit tracking-wider'> ₹9/Km</p>
-                                                                    </div>
-                                                                </div>
-                                                                <div className="flex justify-between items-end px-3 py-2">
-                                                                    <div className="">
-                                                                        <p className='tx-white text-[18px] font-bold font-Outfit tracking-wide'>{item.categoryName}</p>
-                                                                        <div className="tx-white text-[14px] font-Outfit tracking-wide ">Innova or Innova Crysta</div>
-                                                                    </div>
-                                                                    <div className="flex items-center pt-2 gap-1">
-                                                                        <p className='tx-white text-[16px] font-bold '>6</p>
-                                                                        <i class="fa-solid fa-user tx-white"></i>
+                                                                    <div className="flex justify-between items-end px-3 py-2">
+                                                                        <div className="">
+                                                                            <p className='tx-white text-[18px] font-bold font-Outfit tracking-wide'>{item.categoryName}</p>
+                                                                            <div className="tx-white text-[14px] font-Outfit tracking-wide ">Innova or Innova Crysta</div>
+                                                                        </div>
+                                                                        <div className="flex items-center pt-2 gap-1">
+                                                                            <p className='tx-white text-[16px] font-bold '>6</p>
+                                                                            <i class="fa-solid fa-user tx-white"></i>
+                                                                        </div>
                                                                     </div>
                                                                 </div>
                                                             </div>
-                                                        </div>
-                                                    </div>
+                                                        </>
+                                                    ))}
                                                 </div>
-                                            ))}
-
+                                            </div>
                                         </div>
                                         <div className="bs-blue rounded-md px-5 py-1 absolute top-100 start-50 translate-middle pointer">
                                             <p className='text-[18px] font-medium font-Outfit tx-white'>LET’S YBGO!</p>
@@ -678,7 +700,7 @@ export default function Heroslider() {
                                 }
                             </>
                         }
-                    </div >
+                    </div>
                     {/* <div className="relative z-[90] w-fit">
                         <div className="w-fit">
                             <img className='w-[clamp(800px,800px,800px)] object-contain' src="../../../../public/IMG/hero-car.png" alt="" />
