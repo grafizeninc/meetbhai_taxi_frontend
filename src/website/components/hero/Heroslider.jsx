@@ -606,13 +606,6 @@ export default function Heroslider() {
                                             <div className="flex w-50 border-y-1 py-2.5">
                                                 <div class="col w-50 relative rounded-lg flex flex-col justify-center px-3">
                                                     <p class="text-[15px] font-semibold bs-white px-1 font-Outfit opacity-70">Pickup Date </p>
-                                                    {/* <DatePicker
-                                                        label={""}
-                                                        // value={selectedAirportDate} onChange={setSelectedAirportDate}
-                                                        value={value} onChange={setValue}
-                                                        className="max-w-[284px] hero-custome-date"
-                                                        description={""}
-                                                    /> */}
                                                     <DatePicker
                                                         selected={selectedAirportDate}
                                                         onChange={(date) => setSelectedAirportDate(date)}
@@ -624,10 +617,10 @@ export default function Heroslider() {
                                                 <div className="w-[clamp(1px,1px,1px)] bg-[#e5e7eb] rounded-full"></div>
                                                 <div className="col w-50 relative rounded-lg flex flex-col gap-2 justify-center px-3">
                                                     <p class="text-[15px] font-semibold bs-white px-1 font-Outfit opacity-70">Pickup Time </p>
-                                                    <div className="h-fit">
+                                                    {/* <div className="h-fit">
                                                         <input onClick={(e) => setSelectedAirportTime(e.target.value)}  className='w-[clamp(100%,100%,100%)] h-[clamp(35px,35px,35px)] px-2 py-0 ' type="time" />
                                                     </div>
-                                                     {selectedAirportTime} 
+                                                     {selectedAirportTime}  */}
                                                 </div>
                                             </div>
                                         </div>
