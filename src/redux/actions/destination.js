@@ -29,7 +29,7 @@ export const getDestinationByAirportAction = (airportId) => {
       if (res?.status === "success") {
         dispatch({ 
             type: GET_DESTINATION_BY_AIRPORT,
-            payload: res.destination,
+            payload: res.destinationList,
           });
         }
       })

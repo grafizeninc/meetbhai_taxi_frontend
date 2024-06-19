@@ -99,7 +99,7 @@ export default function Heroslider() {
     const destinationByAirportList = Array.isArray(getDestinationByAirport) ? getDestinationByAirport.map((destinationByAirport) => ({
         id: destinationByAirport._id,
         name: destinationByAirport.name,
-    })) : [];
+    })) : []; 
     const VehicleByAirportAndDestinationList = Array.isArray(getVehicleByAirportAndDestination) ? getVehicleByAirportAndDestination.map((VehicleByAirportAndDestination) => ({
         categoryId: VehicleByAirportAndDestination.categoryId,
         categoryName: VehicleByAirportAndDestination.categoryName,
@@ -584,7 +584,7 @@ export default function Heroslider() {
                                                     <Autocomplete
                                                         label=""
                                                         isDisabled={selectedAirport === null ? true : false}
-                                                        defaultItems={destinationList}
+                                                        defaultItems={destinationByAirportList}
                                                         placeholder="Enter destination"
                                                         selectedKey={selectedDestinationFromAll}
                                                         onSelectionChange={setSelectedDestinationFromAll}

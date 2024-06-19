@@ -13,10 +13,9 @@ export default function BottomBar() {
         { w: "w-[45px]", click: () => setmenuOverLap(true), redirection: "/local-trips", ico: "../../../public/IMG/BottomBar/user-black.png", icoActive: "../../../public/IMG/BottomBar/user-org.png", name: "Profile" },
     ]
 
-
     return (
         <>
-            <div className="w-100 fixed bottom-0 start-0 bs-white py-2 shadow-md  " >
+            <div className="w-100 fixed bottom-0 start-0 bs-white py-2 shadow-md">
                 <div className="flex w-100">
                     {datalist.map((item) => (
                         <div onClick={() => setActiveTab(item.name)} className={`rounded-lg pointer flex flex-col px-2 items-center justify-center col  ${activeTab === item.name ? "" : " "} `}   >

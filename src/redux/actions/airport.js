@@ -4,12 +4,12 @@ import { ADD_AIRPORT, UPDATE_AIRPORT, DELETE_AIRPORT, GET_ALL_AIRPORT, } from ".
 
 export const getAllAirPortAction = () => {
     return (dispatch) => {
-        return ApiGet(`/api/v1/airports`)
+        return ApiGet(`/api/v1/destination-airports`)
             .then((res) => {
                 if (res?.status === "success") {
                     dispatch({
                         type: GET_ALL_AIRPORT,
-                        payload: res.data.data,
+                        payload: res.airports,
                     });
                 }
             })
