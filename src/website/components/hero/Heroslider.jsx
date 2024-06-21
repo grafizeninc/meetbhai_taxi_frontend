@@ -22,7 +22,14 @@ export default function Heroslider() {
     const [selectedAirportTime, setSelectedAirportTime] = useState(new Date());
     const [selectedDestination, setSelectedDestination] = useState(null);
     const [selectedDestinationFromAll, setSelectedDestinationFromAll] = useState(null);
-
+    const [selectedAirportVehicle, setSelectedAirportVehicle] = useState(null);
+    
+    
+    const [selectedCity, setSelectedCity] = useState(null);
+    const [selectedLocalPackageDate, setSelectedLocalPackageDate] = useState(new Date());
+    const [selectedLocalPackageTime, setSelectedLocalPackageTime] = useState(new Date());
+    const [selectedPackage, setSelectedPackage] = useState(null);
+    const [selectedPackageFromAll, setSelectedPackageFromAll] = useState(null);
 
 
     const [activeTrip, setActiveTrip] = useState("OutStation");
@@ -33,10 +40,11 @@ export default function Heroslider() {
     const getAllDestination = useSelector((state) => state?.destinationState?.getAllDestination || []);
     const getDestinationByAirport = useSelector((state) => state?.destinationState?.getDestinationByAirport || []);
     const getVehicleByAirportAndDestination = useSelector((state) => state?.bookingState?.getVehicleByAirportAndDestination || []);
+    const getVehicleByLocalPackages = useSelector((state) => state?.bookingState?.getVehicleByLocalPackages || []);
     const getAllhourlyPackages = useSelector((state) => state?.hourlyRentState?.getAllHourlyRent || []);
     const getAllLocalPackages = useSelector((state) => state?.localPackageState?.getAllLocalPackages || []);
 
-    const [InitialData, setInitialData] = useState({
+    const [InitialAirportData, setInitialAirportData] = useState({
         user: "", // User Id
         airportId: "",
         destinationVehicleId: "",
@@ -45,10 +53,54 @@ export default function Heroslider() {
         categoryId: "",
         km: ""
     });
-
+    const [InitialLocalPackageData, setLocalPackageInitialData] = useState({
+        user: "", // User Id
+        cityId: "",
+        packageId: "",
+        pickupDate: "",
+        pickupTime: "",
+        categoryId: "",
+        km: ""
+    });
     const handleDataChange = (e) => {
         const { name, value } = e.target;
-        setInitialData((prevData) => ({
+        setInitialAirportData((prevData) => ({
+            ...prevData,
+            [name]: value,
+        }));
+        // validator.message(name, value, "required");
+        // setValidationErrors((prevErrors) => ({
+        //   ...prevErrors,
+        //   [name]: validator.getErrorMessages()[name],
+        // }));
+    };
+    const handleAirportBookingDataSubmit = (e) => {
+
+        e.preventDefault();
+        // if (validator.allValid()) {
+
+        let body = {
+            airportId: selectedAirport,
+            destinationVehicleId: selectedDestinationFromAll,
+            pickupDate:  moment(selectedAirportDate).format('DD/MM/YYYY'),
+            pickupTime: selectedAirportTime,
+            categoryId: selectedAirportVehicle,
+        }
+        dispatch(addAirportBookingAction(body));
+
+        setInitialAirportData();
+        // } else {
+        //     validator.showMessages();
+        //     setValidationErrors(validator.getErrorMessages());
+        // }
+    };
+
+    
+
+    
+    const handleLocalDataChange = (e) => {
+        const { name, value } = e.target;
+        setLocalPackageInitialData((prevData) => ({
             ...prevData,
             [name]: value,
         }));
@@ -59,26 +111,27 @@ export default function Heroslider() {
         // }));
     };
 
-    const handleAirportBookingDataSubmit = (e) => {
+    const handleLocalPackageDataSubmit = (e) => {
 
         e.preventDefault();
         // if (validator.allValid()) {
 
         let body = {
-            airportId: selectedAirport,
-            destinationVehicleId: selectedDestinationFromAll,
-            pickupDate: InitialData.pickupDate,
-            pickupTime: InitialData.pickupTime,
-            categoryId: InitialData.categoryId,
+            cityId: selectedCity,
+            packageId: selectedPackageFromAll,
+            pickupDate:  moment(selectedLocalPackageDate).format('DD/MM/YYYY'),
+            pickupTime: selectedLocalPackageTime,
+            categoryId: InitialLocalPackageData.categoryId,
         }
-        dispatch(addAirportBookingAction(body));
+        dispatch(addLocalBookingAction(body));
 
-        setInitialData();
+        setLocalPackageInitialData();
         // } else {
         //     validator.showMessages();
         //     setValidationErrors(validator.getErrorMessages());
         // }
     };
+
 
     const cityList = Array.isArray(getAllCity) ? getAllCity.map((city) => ({
         id: city._id,
@@ -99,11 +152,28 @@ export default function Heroslider() {
     const destinationByAirportList = Array.isArray(getDestinationByAirport) ? getDestinationByAirport.map((destinationByAirport) => ({
         id: destinationByAirport._id,
         name: destinationByAirport.name,
-    })) : []; 
+    })) : [];
     const VehicleByAirportAndDestinationList = Array.isArray(getVehicleByAirportAndDestination) ? getVehicleByAirportAndDestination.map((VehicleByAirportAndDestination) => ({
         categoryId: VehicleByAirportAndDestination.categoryId,
         categoryName: VehicleByAirportAndDestination.categoryName,
         name: VehicleByAirportAndDestination.name,
+        price: VehicleByAirportAndDestination.price,
+        seat: VehicleByAirportAndDestination.seat,
+        waterBottle: VehicleByAirportAndDestination.waterBottle,
+        fuelType: VehicleByAirportAndDestination.fuelType,
+        ac: VehicleByAirportAndDestination.ac,
+        carrier: VehicleByAirportAndDestination.carrier,
+    })) : [];
+    const VehicleByLocalPackagesList = Array.isArray(getVehicleByLocalPackages) ? getVehicleByLocalPackages.map((VehicleByLocalPackages) => ({
+        categoryId: VehicleByLocalPackagesList.categoryId,
+        categoryName: VehicleByLocalPackagesList.categoryName,
+        name: VehicleByLocalPackagesList.name,
+        price: VehicleByLocalPackagesList.price,
+        seat: VehicleByLocalPackagesList.seat,
+        waterBottle: VehicleByLocalPackagesList.waterBottle,
+        fuelType: VehicleByLocalPackagesList.fuelType,
+        ac: VehicleByLocalPackagesList.ac,
+        carrier: VehicleByLocalPackagesList.carrier,
     })) : [];
     const hourlyPackageList = Array.isArray(getAllhourlyPackages) ? getAllhourlyPackages.map((hourlyPackage) => ({
         id: hourlyPackage._id,
@@ -268,7 +338,7 @@ export default function Heroslider() {
                                                 <p class="text-[15px] font-semibold bs-white px-1 font-Outfit opacity-70">Pickup Time </p>
                                                 <div className="h-fit">
                                                     <input className='w-[clamp(100%,100%,100%)] h-[clamp(35px,35px,35px)] px-2 py-0 ' type="time"
-                                                        value={InitialData?.pickupDate} onChange={handleDataChange} />
+                                                        value={InitialAirportData?.pickupDate} onChange={handleDataChange} />
                                                 </div>
                                             </div>
                                         </div>
@@ -610,17 +680,17 @@ export default function Heroslider() {
                                                         selected={selectedAirportDate}
                                                         onChange={(date) => setSelectedAirportDate(date)}
                                                         className="max-w-[284px] hero-custome-date"
-                                                        dateFormat="MM/dd/yyyy" // Optional: specify the format for the picker
+                                                        dateFormat="dd/MM/yyyy" // Optional: specify the format for the picker
                                                         placeholderText="Select a date"
                                                     />
-                                                </div> {moment(selectedAirportDate).format('MM/DD/YYYY')}
+                                                </div>
                                                 <div className="w-[clamp(1px,1px,1px)] bg-[#e5e7eb] rounded-full"></div>
                                                 <div className="col w-50 relative rounded-lg flex flex-col gap-2 justify-center px-3">
                                                     <p class="text-[15px] font-semibold bs-white px-1 font-Outfit opacity-70">Pickup Time </p>
-                                                    {/* <div className="h-fit">
-                                                        <input onClick={(e) => setSelectedAirportTime(e.target.value)}  className='w-[clamp(100%,100%,100%)] h-[clamp(35px,35px,35px)] px-2 py-0 ' type="time" />
+                                                    <div className="h-fit">
+                                                        <input onChange={(e) => setSelectedAirportTime(e.target.value)} className='w-[clamp(100%,100%,100%)] h-[clamp(35px,35px,35px)] px-2 py-0 ' type="time" />
+                                                       
                                                     </div>
-                                                     {selectedAirportTime}  */}
                                                 </div>
                                             </div>
                                         </div>
@@ -636,16 +706,16 @@ export default function Heroslider() {
                                                                     </div>
                                                                 </div>
                                                                 <div className="px-3">
-                                                                    <p className='tx-white text-[23px] font-bold font-Outfit tracking-wider'> ₹9/Km</p>
+                                                                    <p className='tx-white text-[23px] font-bold font-Outfit tracking-wider'> ₹{item.price}</p>
                                                                 </div>
                                                             </div>
                                                             <div className="flex justify-between items-end px-3 py-2">
                                                                 <div className="">
                                                                     <p className='tx-white text-[18px] font-bold font-Outfit tracking-wide'>{item.categoryName}</p>
-                                                                    <div className="tx-white text-[14px] font-Outfit tracking-wide ">Innova or Innova Crysta</div>
+                                                                    <div className="tx-white text-[14px] font-Outfit tracking-wide ">{item.fuelType}</div>
                                                                 </div>
                                                                 <div className="flex items-center pt-2 gap-1">
-                                                                    <p className='tx-white text-[16px] font-bold '>6</p>
+                                                                    <p className='tx-white text-[16px] font-bold '>{item.seat}</p>
                                                                     <i class="fa-solid fa-user tx-white"></i>
                                                                 </div>
                                                             </div>
@@ -666,16 +736,16 @@ export default function Heroslider() {
                                                                             </div>
                                                                         </div>
                                                                         <div className="px-3">
-                                                                            <p className='tx-white text-[23px] font-bold font-Outfit tracking-wider'> ₹9/Km</p>
+                                                                            <p className='tx-white text-[23px] font-bold font-Outfit tracking-wider'> ₹{item.price}</p>
                                                                         </div>
                                                                     </div>
                                                                     <div className="flex justify-between items-end px-3 py-2">
                                                                         <div className="">
                                                                             <p className='tx-white text-[18px] font-bold font-Outfit tracking-wide'>{item.categoryName}</p>
-                                                                            <div className="tx-white text-[14px] font-Outfit tracking-wide ">Innova or Innova Crysta</div>
+                                                                            <div className="tx-white text-[14px] font-Outfit tracking-wide ">{item.fuelType}</div>
                                                                         </div>
                                                                         <div className="flex items-center pt-2 gap-1">
-                                                                            <p className='tx-white text-[16px] font-bold '>6</p>
+                                                                            <p className='tx-white text-[16px] font-bold '>{item.seat}</p>
                                                                             <i class="fa-solid fa-user tx-white"></i>
                                                                         </div>
                                                                     </div>
@@ -686,7 +756,7 @@ export default function Heroslider() {
                                                 </div>
                                             </div>
                                         </div>
-                                        <div className="bs-blue rounded-md px-5 py-1 absolute top-100 start-50 translate-middle pointer">
+                                        <div onClick={handleAirportBookingDataSubmit} className="bs-blue rounded-md px-5 py-1 absolute top-100 start-50 translate-middle pointer">
                                             <p className='text-[18px] font-medium font-Outfit tx-white'>LET’S YBGO!</p>
                                         </div>
                                     </>
