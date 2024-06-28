@@ -465,3 +465,8 @@
 .bg-transparent {
   top: 6px !important;
 }
+
+.custome-date .bg-default-100 {
+  background: #fff !important;
+  box-shadow: none !important;
+}

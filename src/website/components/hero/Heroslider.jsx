@@ -39,6 +39,7 @@ export default function Heroslider() {
     const getAllAirport = useSelector((state) => state?.airPortState?.getAllAirPort || []);
     const getAllDestination = useSelector((state) => state?.destinationState?.getAllDestination || []);
     const getDestinationByAirport = useSelector((state) => state?.destinationState?.getDestinationByAirport || []);
+
     const getVehicleByAirportAndDestination = useSelector((state) => state?.bookingState?.getVehicleByAirportAndDestination || []);
     const getVehicleByLocalPackages = useSelector((state) => state?.bookingState?.getVehicleByLocalPackages || []);
     const getAllhourlyPackages = useSelector((state) => state?.hourlyRentState?.getAllHourlyRent || []);
