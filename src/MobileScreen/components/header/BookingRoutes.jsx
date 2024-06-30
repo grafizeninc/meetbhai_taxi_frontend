@@ -28,6 +28,11 @@ export default function BookingRoutes({ airportSelector, destinationSelector, pa
                     </div>
                 </div>
 
+                <div className="w-100 min-h-[130px] bg-[#b1afaf] rounded-lg my-2">
+                    <div className=""> 
+                    </div>
+                </div>
+
                 <div className={`${airportSearchBarActive || localSearchBarActive ? "hidden" : ""}  h-fit w-[85%] my-2 flex justify-center gap-2 ${menuOverLap ? "" : "absolute top-100 start-50 translate-middle "}`}>
                     <div className="flex gap-3">
                         {datalist.map((item) => (

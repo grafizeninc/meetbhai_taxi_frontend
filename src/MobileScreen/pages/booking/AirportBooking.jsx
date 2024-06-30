@@ -80,7 +80,7 @@ export default function AirportBooking({
     });
     return (
         <>
-            <div className={`${airportSearchBarActive || localSearchBarActive ? "hidden" : ""}  mt-[25px] h-[calc(100dvh-315px)] flex flex-col justify-between`}>
+            <div className={`${airportSearchBarActive || localSearchBarActive ? "hidden" : ""}  mt-[25px] h-[calc(100dvh-460px)] flex flex-col justify-between`}>
                 {activeMainTab === "Airport/Local" && activeTab === "Airport" &&
                     <>
                         <div className="">
@@ -207,7 +207,7 @@ export default function AirportBooking({
 
                 {activeMainTab === "Airport/Local" && activeTab === "Local" &&
                     <>
-                        <div className="h-[calc(100dvh-300px)] flex flex-col justify-between">
+                        <div className="  flex flex-col justify-between">
                             <div className={`w-[90%] mx-auto min-h-[120px] max-h-[120px] relative flex items-center mt-3`}>
                                 {/* <div className="min-w-[3px] max-w-[3px] border-l-4 border-blue border-dotted col min-h-[35%] max-h-[35%] absolute top-50 start-[24px] translate-middle"></div> */}
                                 <div className="flex flex-col w-100 min-h-[120px] max-h-[120px] justify-between">
