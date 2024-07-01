@@ -81,7 +81,7 @@ export default function AirportBooking({
     });
     return (
         <>
-            <div className={`${airportSearchBarActive || localSearchBarActive ? "hidden" : ""}  mt-[25px] h-[calc(100dvh-460px)] flex flex-col justify-between`}>
+            <div className={`${airportSearchBarActive || localSearchBarActive ? "hidden" : ""}  mt-[25px] h-[calc(100dvh-460px)] flex flex-col justify-between overflow-y-scroll`}>
                 {activeMainTab === "Airport/Local" && activeTab === "Airport" &&
                     <>
                         <div className="">
@@ -247,7 +247,7 @@ export default function AirportBooking({
                             {localCarSelectorActive === true &&
                                 <div className={` min-w-[100%] max-w-[320px] h-[clamp(150px,150px,150px)] mx-auto`}>
                                     <Slider {...carslider} className='w-100'>
-                                        <div className="col mt-4">
+                                        <div className="col mt-4" onClick={handleFareSummryModal}>
                                             <div className="w-[90%] mx-auto bs-blue rounded-xl">
                                                 <div className="w-100 flex items-center justify-between">
                                                     <div className="bs-org w-fit h-fit rounded-br-xl rounded-tl-xl">
@@ -271,7 +271,7 @@ export default function AirportBooking({
                                                 </div>
                                             </div>
                                         </div>
-                                        <div className="col mt-4">
+                                        <div className="col mt-4" onClick={handleFareSummryModal}>
                                             <div className="w-[90%] mx-auto bs-blue rounded-xl">
                                                 <div className="w-100 flex items-center justify-between">
                                                     <div className="bs-org w-fit h-fit rounded-br-xl rounded-tl-xl">

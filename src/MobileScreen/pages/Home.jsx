@@ -36,70 +36,6 @@ export default function Home({ activeMainTab, setActiveMainTab, menuOverLap, set
             handleLocaationPermissionModal();
     }, [airportSearchBarActive, localSearchBarActive])
 
-
-
-    const carslider = ({
-        arrows: false,
-        infinite: true,
-        // autoplay: true,
-        slidesToShow: 1,
-        slidesToScroll: 1,
-        autoplaySpeed: 4000,
-        touchThreshold: 100,
-        responsive: [
-            {
-                breakpoint: 2000,
-                settings: {
-                    slidesToShow: 1,
-                    slidesToScroll: 1,
-                },
-            },
-            {
-                breakpoint: 1600,
-                settings: {
-                    slidesToShow: 1,
-                    slidesToScroll: 1,
-                },
-            },
-            {
-                breakpoint: 1400,
-                settings: {
-                    slidesToShow: 1,
-                    slidesToScroll: 1,
-                },
-            },
-            {
-                breakpoint: 1200,
-                settings: {
-                    slidesToShow: 1,
-                    slidesToScroll: 2,
-                },
-            },
-            {
-                breakpoint: 1024,
-                settings: {
-                    slidesToShow: 1,
-                    slidesToScroll: 3,
-                },
-            },
-            {
-                breakpoint: 600,
-                settings: {
-                    centerMode: false,
-                    slidesToShow: 1,
-                    slidesToScroll: 1,
-                },
-            },
-            {
-                breakpoint: 320,
-                settings: {
-                    centerMode: false,
-                    slidesToShow: 1,
-                    slidesToScroll: 1,
-                },
-            },
-        ]
-    });
     const airportSelector = [
         { label: "HSR - Rajkot Hirasar International Airport", value: "1", },
         { label: "AMD - Sardar Vallabhbhai Patel International Airport", value: "2", },
@@ -205,7 +141,38 @@ export default function Home({ activeMainTab, setActiveMainTab, menuOverLap, set
                                             <p className='text-[15px] font-Outfit font-bold'>SUV</p>
                                         </div>
                                         <div className="flex items-center justify-center border-y-1 py-2 border-org">
-                                            <p className='text-[15px] font-Outfit font-semibold'>Airport To Destination</p> 
+                                            <p className='text-[15px] font-Outfit font-semibold'>Airport To Destination</p>
+                                        </div>
+                                        <div
+                                            className={`col max-w-[100%] mx-auto min-h-[65px] max-h-[65px] relative flex items-center mt-3`}
+                                        >
+                                            <div className="min-w-[3px] max-w-[3px] border-l-3 border-grey border-dashed col min-h-[40%] max-h-[40%] absolute top-50 start-[15px] translate-middle"></div>
+                                            <div className="flex flex-col w-100 min-h-[65px] max-h-[65px] justify-between">
+                                                <div className="w-100 rounded-lg max-h-fit flex items-center gap-2">
+                                                    <div className="w-[clamp(30px,30px,30px)] flex items-center justify-center relative z-20">
+                                                        <img
+                                                            className="w-[clamp(15px,15px,15px)]"
+                                                            src="../../../public/IMG/dot.png"
+                                                            alt=""
+                                                        />
+                                                    </div>
+                                                    <p className="text-[15px] font-Outfit opacity-85">
+                                                        Antonietta Heights, Paxton - 57353
+                                                    </p>
+                                                </div>
+                                                <div className="w-100 rounded-lg max-h-fit flex items-center gap-2">
+                                                    <div className="w-[clamp(30px,30px,30px)] flex items-center justify-center relative z-20 pt-2">
+                                                        <img
+                                                            className="w-[clamp(23px,23px,23px)]"
+                                                            src="../../../public/IMG/location.png"
+                                                            alt=""
+                                                        />
+                                                    </div>
+                                                    <p className="col pe-3 text-[15px] font-Outfit opacity-85 border-t-2 pt-2">
+                                                        Gavin Lake, 08789 Bennett Lake
+                                                    </p>
+                                                </div>
+                                            </div>
                                         </div>
                                         <div className="flex items-center gap-2 mt-2">
                                             <i class="fa-regular fa-badge-check tx-green"></i>
@@ -228,13 +195,13 @@ export default function Home({ activeMainTab, setActiveMainTab, menuOverLap, set
                                             <div className="ps-3">
                                                 <p className='text-[12px] font-Outfit font-semibold opacity-70'>- Charges includes in your fare - Tax charges.</p>
                                                 <p className='text-[12px] font-Outfit font-semibold opacity-70'>- Km and timing will be charged from customer
-                                                location.</p>
+                                                    location.</p>
                                                 <p className='text-[12px] font-Outfit font-semibold opacity-70'>- Car shall not be used for local use in (city)after
-                                                completion of oneway duty.</p>
+                                                    completion of oneway duty.</p>
                                                 <p className='text-[12px] font-Outfit font-semibold opacity-70'>- in case booking cancelled then inform to us before
-                                                24hrs in then pickup time.</p>
+                                                    24hrs in then pickup time.</p>
                                                 <p className='text-[12px] font-Outfit font-semibold opacity-70'>- This is an estimated cost and may very depending
-                                                upon km/ hrs driven. </p>
+                                                    upon km/ hrs driven. </p>
                                             </div>
                                         </div>
                                     </div>
