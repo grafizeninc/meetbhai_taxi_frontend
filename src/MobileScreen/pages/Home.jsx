@@ -15,6 +15,14 @@ export default function Home({ activeMainTab, setActiveMainTab, menuOverLap, set
     const [addStop, setAddStop] = useState(false);
     const { isOpen, onOpen, onOpenChange } = useDisclosure();
     const [locaationPermissionModal, setLocaationPermissionModal] = useState(false);
+    const [fareSummryModal, setFareSummryModal] = useState(false);
+
+    const handleFareSummryModal = () => {
+        setFareSummryModal(true)
+    }
+    const closeFareSummryModal = () => {
+        setFareSummryModal(false)
+    }
 
     const handleLocaationPermissionModal = () => {
         setLocaationPermissionModal(true)
@@ -137,14 +145,14 @@ export default function Home({ activeMainTab, setActiveMainTab, menuOverLap, set
                 packageSelector={packageSelector} citySelector={citySelector} />
 
 
-            <AirportBooking activeMainTab={activeMainTab} airportSearchBarActive={airportSearchBarActive}
+            <AirportBooking handleFareSummryModal={handleFareSummryModal} activeMainTab={activeMainTab} airportSearchBarActive={airportSearchBarActive}
                 setAirportSearchBarActive={setAirportSearchBarActive} localSearchBarActive={localSearchBarActive}
                 localCarSelectorActive={localCarSelectorActive} activeWhichLocationTab={activeWhichLocationTab}
-                setactiveWhichLocationTab={setactiveWhichLocationTab} activeTab={activeTab} airportCarSelectorActive={airportCarSelectorActive }
+                setactiveWhichLocationTab={setactiveWhichLocationTab} activeTab={activeTab} airportCarSelectorActive={airportCarSelectorActive}
                 setLocalSearchBarActive={setLocalSearchBarActive} />
 
 
-            <div className={`${localSearchBarActive ? "" : "hidden"} w-100 px-3 mt-5`} onClick={() => { setLocalSearchBarActive(false), setlocalCarSelectorActive(true)  }}>
+            <div className={`${localSearchBarActive ? "" : "hidden"} w-100 px-3 mt-5`} onClick={() => { setLocalSearchBarActive(false), setlocalCarSelectorActive(true) }}>
                 <div className="w-100 bs-blue text-center py-2.5 rounded-2">
                     <p className='text-[15px] font-semibold tx-white'>Let's YBGO!</p>
                 </div>
@@ -172,6 +180,66 @@ export default function Home({ activeMainTab, setActiveMainTab, menuOverLap, set
                                     Action
                                 </Button>
                             </ModalFooter>
+                        </>
+                    )}
+                </ModalContent>
+            </Modal>
+
+
+            <Modal isOpen={fareSummryModal} backdrop={"blur"} placement='center' isDismissable={false} onOpenChange={closeFareSummryModal}>
+                <ModalContent className='!m-0 !p-0 !w-[95%] !rounded-lg '>
+                    {(closeFareSummryModal) => (
+                        <>
+                            <ModalBody className='!m-0 !p-0'>
+                                <div className="">
+                                    <div className="bs-org py-1.5 text-center">
+                                        <p className='text-[16px] tx-white font-Outfit font-bold'>Fare Summry</p>
+                                    </div>
+                                    <div className="p-3">
+                                        <div className="flex items-center justify-between">
+                                            <p className='text-[15px] font-Outfit font-semibold'>Fare Price</p>
+                                            <p className='text-[15px] font-Outfit font-bold'>₹ 1570.00</p>
+                                        </div>
+                                        <div className="flex items-center justify-between pb-1">
+                                            <p className='text-[15px] font-Outfit font-semibold'>Selected Vehicle</p>
+                                            <p className='text-[15px] font-Outfit font-bold'>SUV</p>
+                                        </div>
+                                        <div className="flex items-center justify-center border-y-1 py-2 border-org">
+                                            <p className='text-[15px] font-Outfit font-semibold'>Airport To Destination</p> 
+                                        </div>
+                                        <div className="flex items-center gap-2 mt-2">
+                                            <i class="fa-regular fa-badge-check tx-green"></i>
+                                            <p className='text-[14px] font-Outfit font-semibold'>Additional charges ( if any )</p>
+                                        </div>
+                                        <div className="ps-3">
+                                            <p className='text-[12px] font-Outfit font-semibold opacity-70'>Usable Oneway limit 531 kms</p>
+                                            <p className='text-[12px] font-Outfit font-semibold opacity-70'>After 531 extra charges ₹7 per km</p>
+                                        </div>
+                                        <div className="flex items-center gap-2 mt-2">
+                                            <i class="fa-regular fa-badge-check tx-green"></i>
+                                            <p className='text-[14px] font-Outfit font-semibold'>Inclusion: Base Fare, vehicle and fuel.</p>
+                                        </div>
+                                        <div className="flex items-center gap-2 mt-2">
+                                            <i class="fa-regular fa-badge-check tx-green"></i>
+                                            <p className='text-[14px] font-Outfit font-semibold'>Exclusion: Parking Charge, Airport Entry Charge</p>
+                                        </div>
+                                        <div className="mt-3">
+                                            <p className='text-[14px] font-Outfit font-semibold'>Note :-</p>
+                                            <div className="ps-3">
+                                                <p className='text-[12px] font-Outfit font-semibold opacity-70'>- Charges includes in your fare - Tax charges.</p>
+                                                <p className='text-[12px] font-Outfit font-semibold opacity-70'>- Km and timing will be charged from customer
+                                                location.</p>
+                                                <p className='text-[12px] font-Outfit font-semibold opacity-70'>- Car shall not be used for local use in (city)after
+                                                completion of oneway duty.</p>
+                                                <p className='text-[12px] font-Outfit font-semibold opacity-70'>- in case booking cancelled then inform to us before
+                                                24hrs in then pickup time.</p>
+                                                <p className='text-[12px] font-Outfit font-semibold opacity-70'>- This is an estimated cost and may very depending
+                                                upon km/ hrs driven. </p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </ModalBody>
                         </>
                     )}
                 </ModalContent>

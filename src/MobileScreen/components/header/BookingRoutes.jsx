@@ -28,7 +28,7 @@ export default function BookingRoutes({ airportSelector, destinationSelector, pa
                     </div>
                 </div>
 
-                <div className="w-100 min-h-[130px] bg-[#b1afaf] rounded-lg my-2">
+                <div className={`${airportSearchBarActive || localSearchBarActive ? "hidden" : ""} w-100 min-h-[130px] bg-[#b1afaf] rounded-lg my-2`}>
                     <div className=""> 
                     </div>
                 </div>
